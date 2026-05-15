@@ -1,0 +1,443 @@
+---
+/**
+ * DorkCraft — Main Page
+ * =====================
+ * Astro renders this fully statically (SSG). All dynamic behaviour
+ * (API calls, history, copy, share) is handled by the <script> block below.
+ */
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import SearchBox from '../components/SearchBox.astro';
+import ResultCard from '../components/ResultCard.astro';
+import '../styles/global.css';
+
+const API_URL = import.meta.env.PUBLIC_API_URL ?? 'http://localhost:8000';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DorkCraft — Google Dork Generator for OSINT Research</title>
+    <meta name="description"
+      content="Generate safe, effective Google search operators (dorks) from plain English. Built for OSINT, academic research, and public information discovery." />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="DorkCraft — Google Dork Generator" />
+    <meta property="og:description"
+      content="Transform plain English into advanced Google search operators instantly." />
+    <meta property="og:type" content="website" />
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://juandresrodca.github.io/DorkCraft/" />
+
+    <!-- Favicon (inline SVG data-uri) -->
+    <link rel="icon" type="image/svg+xml"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%236366f1'/%3E%3Ccircle cx='14' cy='15' r='5' fill='none' stroke='white' stroke-width='2'/%3E%3Cline x1='18' y1='19' x2='22' y2='23' stroke='white' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E" />
+  </head>
+
+  <body>
+    <Header />
+
+    <main class="dc-main" id="main-content">
+
+      <!-- Hero text -->
+      <section class="dc-hero" aria-labelledby="hero-heading">
+        <div class="dc-hero__eyebrow">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+          </svg>
+          OSINT · Research · Discovery
+        </div>
+        <h1 id="hero-heading" class="dc-hero__title">
+          Plain English → <em>Google Dorks</em>
+        </h1>
+        <p class="dc-hero__sub">
+          Describe what you want to find. DorkCraft builds the precise
+          Google search operators automatically.
+        </p>
+      </section>
+
+      <!-- Search -->
+      <SearchBox />
+
+      <!-- Result -->
+      <ResultCard />
+
+      <!-- Search history -->
+      <section class="dc-history" id="dc-history-section" style="display:none" aria-label="Search history">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+          <h2 class="dc-history__title">Recent Searches</h2>
+          <button class="dc-history__clear" id="dc-clear-history" type="button" aria-label="Clear search history">
+            Clear history
+          </button>
+        </div>
+        <ul class="dc-history__list" id="dc-history-list" role="list" aria-label="Recent queries"></ul>
+      </section>
+
+      <!-- Operator cheat sheet -->
+      <section class="dc-cheat" aria-label="Google operators cheat sheet">
+        <button
+          class="dc-cheat__toggle"
+          id="dc-cheat-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="dc-cheat-body"
+        >
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+          </svg>
+          Operator Cheat Sheet
+          <svg class="dc-cheat__chevron" width="14" height="14" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <polyline points="6 9 12 15 18 9"/>
+          </svg>
+        </button>
+
+        <div class="dc-cheat__body" id="dc-cheat-body">
+          <div class="dc-cheat__grid">
+            {[
+              { op: 'site:',      desc: 'Limit results to a specific domain' },
+              { op: 'filetype:',  desc: 'Filter by file extension (pdf, doc…)' },
+              { op: 'intitle:',   desc: 'Keyword must appear in the page title' },
+              { op: 'inurl:',     desc: 'Keyword must appear in the URL' },
+              { op: 'intext:',    desc: 'Keyword must appear in page body' },
+              { op: '"phrase"',   desc: 'Exact-match a multi-word phrase' },
+              { op: '-term',      desc: 'Exclude pages containing this term' },
+              { op: 'OR',         desc: 'Match either of two terms' },
+              { op: 'related:',   desc: 'Find pages similar to a URL' },
+              { op: 'cache:',     desc: 'View Google\'s cached version of a page' },
+              { op: 'before:',    desc: 'Filter results before a date (YYYY-MM-DD)' },
+              { op: 'after:',     desc: 'Filter results after a date (YYYY-MM-DD)' },
+            ].map(({ op, desc }) => (
+              <div class="dc-cheat__item">
+                <code class="dc-cheat__op">{op}</code>
+                <span class="dc-cheat__desc">{desc}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <Footer />
+
+    <!-- ----------------------------------------------------------------
+         Client-side interactivity — runs in the browser after hydration
+    ------------------------------------------------------------------- -->
+    <script define:vars={{ API_URL }}>
+      /**
+       * DorkCraft client script
+       * -----------------------
+       * Handles: form submission, API calls, copy, share, export,
+       *          localStorage history, cheat-sheet toggle, chip clicks.
+       */
+
+      // ── DOM refs ────────────────────────────────────────────────────
+      const input        = /** @type {HTMLTextAreaElement} */  (document.getElementById('dc-query-input'));
+      const generateBtn  = /** @type {HTMLButtonElement}   */  (document.getElementById('dc-generate-btn'));
+      const charCount    = document.getElementById('dc-char-count');
+      const resultCard   = document.getElementById('dc-result-card');
+      const errorCard    = document.getElementById('dc-error-card');
+      const errorMsg     = document.getElementById('dc-error-message');
+      const dorkOutput   = document.getElementById('dc-dork-output');
+      const badge        = document.getElementById('dc-category-badge');
+      const explList     = document.getElementById('dc-explanation-list');
+      const varList      = document.getElementById('dc-variations-list');
+      const copyBtn      = document.getElementById('dc-copy-btn');
+      const openBtn      = document.getElementById('dc-open-btn');
+      const exportBtn    = document.getElementById('dc-export-btn');
+      const shareBtn     = document.getElementById('dc-share-btn');
+      const historySection = document.getElementById('dc-history-section');
+      const historyList  = document.getElementById('dc-history-list');
+      const clearHistBtn = document.getElementById('dc-clear-history');
+      const cheatToggle  = document.getElementById('dc-cheat-toggle');
+      const cheatBody    = document.getElementById('dc-cheat-body');
+      const chips        = document.querySelectorAll('.dc-chip');
+
+      /** The last successful API result, kept for export/share. */
+      let currentResult = null;
+      let currentQuery  = '';
+
+      // ── Character counter ───────────────────────────────────────────
+      input.addEventListener('input', () => {
+        const len = input.value.length;
+        charCount.textContent = `${len} / 500 characters`;
+      });
+
+      // Auto-resize textarea
+      input.addEventListener('input', () => {
+        input.style.height = 'auto';
+        input.style.height = Math.min(input.scrollHeight, 160) + 'px';
+      });
+
+      // Ctrl/Cmd+Enter to generate
+      input.addEventListener('keydown', (e) => {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+          e.preventDefault();
+          handleGenerate();
+        }
+      });
+
+      // ── Chip clicks ─────────────────────────────────────────────────
+      chips.forEach(chip => {
+        chip.addEventListener('click', () => {
+          input.value = chip.dataset.chip ?? '';
+          input.dispatchEvent(new Event('input'));
+          input.focus();
+        });
+      });
+
+      // ── Generate ────────────────────────────────────────────────────
+      generateBtn.addEventListener('click', handleGenerate);
+
+      async function handleGenerate() {
+        const query = input.value.trim();
+        if (!query) {
+          input.focus();
+          return;
+        }
+
+        // Loading state
+        generateBtn.disabled = true;
+        generateBtn.classList.add('dc-btn--loading');
+        generateBtn.textContent = '';  // icon handled by ::before pseudo
+        hideResults();
+
+        try {
+          const res = await fetch(`${API_URL}/generate`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ query }),
+          });
+          const json = await res.json();
+
+          if (!res.ok || json.error) {
+            showError(json.error ?? 'An unexpected error occurred.');
+            return;
+          }
+
+          currentResult = json;
+          currentQuery  = query;
+          renderResult(json);
+          addToHistory(query, json.dork);
+
+        } catch (err) {
+          showError('Could not reach the DorkCraft backend. Is it running on port 8000?');
+        } finally {
+          generateBtn.disabled = false;
+          generateBtn.classList.remove('dc-btn--loading');
+          // Restore button content
+          generateBtn.innerHTML = `
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                 stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+            </svg>
+            Generate Dork`;
+        }
+      }
+
+      // ── Render result ────────────────────────────────────────────────
+      function renderResult(data) {
+        // Badge
+        badge.textContent = data.category ?? 'general';
+
+        // Main dork
+        dorkOutput.textContent = data.dork;
+
+        // Explanation
+        explList.innerHTML = '';
+        (data.explanation ?? []).forEach(point => {
+          const li = document.createElement('li');
+          li.textContent = point;
+          explList.appendChild(li);
+        });
+
+        // Variations
+        varList.innerHTML = '';
+        (data.variations ?? []).forEach(v => {
+          const li = document.createElement('li');
+          li.innerHTML = `
+            <code>${escHtml(v)}</code>
+            <span class="dc-card__var-copy">copy</span>`;
+          li.addEventListener('click', () => copyText(v, li.querySelector('.dc-card__var-copy')));
+          varList.appendChild(li);
+        });
+
+        // Show card
+        resultCard.classList.remove('dc-card--hidden');
+        errorCard.classList.add('dc-card--hidden');
+        resultCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+
+      function showError(message) {
+        errorMsg.textContent = message;
+        errorCard.classList.remove('dc-card--hidden');
+        resultCard.classList.add('dc-card--hidden');
+      }
+
+      function hideResults() {
+        resultCard.classList.add('dc-card--hidden');
+        errorCard.classList.add('dc-card--hidden');
+      }
+
+      // ── Copy dork ───────────────────────────────────────────────────
+      copyBtn.addEventListener('click', () => {
+        if (dorkOutput.textContent) {
+          copyText(dorkOutput.textContent, copyBtn);
+        }
+      });
+
+      async function copyText(text, targetEl) {
+        try {
+          await navigator.clipboard.writeText(text);
+          const original = targetEl.textContent;
+          targetEl.textContent = '✓ Copied!';
+          setTimeout(() => { targetEl.textContent = original; }, 2000);
+        } catch {
+          // Fallback for older browsers / non-HTTPS
+          const ta = document.createElement('textarea');
+          ta.value = text;
+          ta.style.position = 'fixed';
+          ta.style.opacity  = '0';
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand('copy');
+          document.body.removeChild(ta);
+        }
+      }
+
+      // ── Open in Google ──────────────────────────────────────────────
+      openBtn.addEventListener('click', () => {
+        const dork = dorkOutput.textContent;
+        if (!dork) return;
+        const url = `https://www.google.com/search?q=${encodeURIComponent(dork)}`;
+        window.open(url, '_blank', 'noopener,noreferrer');
+      });
+
+      // ── Export Markdown ─────────────────────────────────────────────
+      exportBtn.addEventListener('click', () => {
+        if (!currentResult) return;
+
+        const lines = [
+          `# DorkCraft — ${currentQuery}`,
+          '',
+          '## Generated Dork',
+          '```',
+          currentResult.dork,
+          '```',
+          '',
+          '## How it works',
+          ...(currentResult.explanation ?? []).map(e => `- ${e}`),
+          '',
+          '## Variations',
+          ...(currentResult.variations ?? []).map(v => `- \`${v}\``),
+          '',
+          '---',
+          '*Generated by [DorkCraft](https://github.com/yourusername/google-dorksHelper)*',
+        ];
+
+        const blob = new Blob([lines.join('\n')], { type: 'text/markdown' });
+        const url  = URL.createObjectURL(blob);
+        const a    = document.createElement('a');
+        a.href     = url;
+        a.download = 'dorkcraft-result.md';
+        a.click();
+        URL.revokeObjectURL(url);
+      });
+
+      // ── Share link ──────────────────────────────────────────────────
+      shareBtn.addEventListener('click', async () => {
+        if (!currentQuery) return;
+        const url = `${location.origin}${location.pathname}?q=${encodeURIComponent(currentQuery)}`;
+        if (navigator.share) {
+          await navigator.share({ title: 'DorkCraft Result', url });
+        } else {
+          copyText(url, shareBtn);
+        }
+      });
+
+      // Pre-fill from URL query param
+      const urlParams = new URLSearchParams(location.search);
+      if (urlParams.has('q')) {
+        input.value = urlParams.get('q');
+        input.dispatchEvent(new Event('input'));
+        handleGenerate();
+      }
+
+      // ── localStorage history ─────────────────────────────────────────
+      const HISTORY_KEY = 'dc_history';
+      const MAX_HISTORY = 10;
+
+      function getHistory() {
+        try {
+          return JSON.parse(localStorage.getItem(HISTORY_KEY) ?? '[]');
+        } catch { return []; }
+      }
+
+      function addToHistory(query, dork) {
+        const history = getHistory();
+        const entry = { query, dork, ts: Date.now() };
+        // Deduplicate by query
+        const filtered = history.filter(h => h.query !== query);
+        filtered.unshift(entry);
+        localStorage.setItem(HISTORY_KEY, JSON.stringify(filtered.slice(0, MAX_HISTORY)));
+        renderHistory();
+      }
+
+      function renderHistory() {
+        const history = getHistory();
+        if (!history.length) {
+          historySection.style.display = 'none';
+          return;
+        }
+        historySection.style.display = '';
+        historyList.innerHTML = '';
+        history.forEach(item => {
+          const li = document.createElement('li');
+          li.className = 'dc-history__item';
+          const timeStr = new Date(item.ts).toLocaleDateString(undefined, {
+            month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
+          });
+          li.innerHTML = `
+            <span class="dc-history__query">${escHtml(item.query)}</span>
+            <span class="dc-history__time">${timeStr}</span>`;
+          li.addEventListener('click', () => {
+            input.value = item.query;
+            input.dispatchEvent(new Event('input'));
+            handleGenerate();
+          });
+          historyList.appendChild(li);
+        });
+      }
+
+      clearHistBtn.addEventListener('click', () => {
+        localStorage.removeItem(HISTORY_KEY);
+        renderHistory();
+      });
+
+      // Initialise history on load
+      renderHistory();
+
+      // ── Cheat sheet toggle ──────────────────────────────────────────
+      cheatToggle.addEventListener('click', () => {
+        const expanded = cheatToggle.getAttribute('aria-expanded') === 'true';
+        cheatToggle.setAttribute('aria-expanded', String(!expanded));
+        cheatBody.classList.toggle('dc-cheat__body--open', !expanded);
+      });
+
+      // ── Utilities ───────────────────────────────────────────────────
+      function escHtml(str) {
+        const d = document.createElement('div');
+        d.textContent = str;
+        return d.innerHTML;
+      }
+    </script>
+  </body>
+</html>

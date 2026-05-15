@@ -1,0 +1,67 @@
+---
+/**
+ * SearchBox component
+ * -------------------
+ * The primary input area. Renders server-side; all interactivity is handled
+ * by the client-side script in index.astro via the `data-*` hook attributes.
+ */
+
+interface Props {
+  placeholder?: string;
+}
+
+const { placeholder = 'Find public PDF books about malware analysis…' } = Astro.props;
+---
+
+<section class="dc-search" id="search-section" aria-label="Search input">
+  <div class="dc-search__inner">
+    <!-- Search icon -->
+    <svg class="dc-search__icon" width="20" height="20" viewBox="0 0 24 24" fill="none"
+         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+         aria-hidden="true">
+      <circle cx="11" cy="11" r="8"/>
+      <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+    </svg>
+
+    <textarea
+      id="dc-query-input"
+      class="dc-search__textarea"
+      rows="2"
+      placeholder={placeholder}
+      aria-label="Natural language query"
+      autocomplete="off"
+      spellcheck="false"
+    ></textarea>
+  </div>
+
+  <!-- Category chips (example prompts) -->
+  <div class="dc-chips" role="group" aria-label="Example queries">
+    <button class="dc-chip" data-chip="Find public PDF books about Linux forensics" type="button">📄 PDF Books</button>
+    <button class="dc-chip" data-chip="Find LinkedIn profiles for SOC analysts in Ireland" type="button">👤 LinkedIn</button>
+    <button class="dc-chip" data-chip="Find public resumes for cybersecurity analysts" type="button">📋 Resumes</button>
+    <button class="dc-chip" data-chip="Search for public conference presentations about Kubernetes" type="button">🎤 Presentations</button>
+    <button class="dc-chip" data-chip="Find exposed public directories related to Apache logs" type="button">📁 Directories</button>
+    <button class="dc-chip" data-chip="Find public GitHub repositories about threat intelligence" type="button">🐙 GitHub</button>
+  </div>
+
+  <!-- Action buttons -->
+  <div class="dc-search__actions">
+    <button
+      id="dc-generate-btn"
+      class="dc-btn dc-btn--primary"
+      type="button"
+      aria-label="Generate dork"
+    >
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
+        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+      </svg>
+      Generate Dork
+    </button>
+  </div>
+
+  <!-- Character counter -->
+  <p class="dc-search__hint" id="dc-char-count" aria-live="polite">
+    0 / 500 characters
+  </p>
+</section>

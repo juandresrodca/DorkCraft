@@ -1,0 +1,124 @@
+---
+/**
+ * ResultCard component
+ * --------------------
+ * Displays the generated dork, its explanation, and variations.
+ * Hidden by default; shown via JS when a result arrives.
+ */
+---
+
+<article
+  id="dc-result-card"
+  class="dc-card dc-card--hidden"
+  aria-live="polite"
+  aria-label="Generated dork result"
+>
+  <!-- Category badge -->
+  <div class="dc-card__meta">
+    <span class="dc-card__badge" id="dc-category-badge"></span>
+    <span class="dc-card__label">Generated Query</span>
+  </div>
+
+  <!-- Primary dork query -->
+  <div class="dc-card__query-wrap">
+    <pre class="dc-card__query" id="dc-dork-output" aria-label="Google dork query"></pre>
+    <div class="dc-card__query-actions">
+      <button
+        id="dc-copy-btn"
+        class="dc-btn dc-btn--ghost dc-btn--sm"
+        type="button"
+        aria-label="Copy dork to clipboard"
+        title="Copy to clipboard"
+      >
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+        </svg>
+        Copy
+      </button>
+      <button
+        id="dc-open-btn"
+        class="dc-btn dc-btn--secondary dc-btn--sm"
+        type="button"
+        aria-label="Open dork in Google"
+        title="Search Google"
+      >
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+          <polyline points="15 3 21 3 21 9"/>
+          <line x1="10" y1="14" x2="21" y2="3"/>
+        </svg>
+        Open in Google
+      </button>
+    </div>
+  </div>
+
+  <!-- Operator explanation -->
+  <div class="dc-card__section">
+    <h2 class="dc-card__section-title">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="2" stroke-linecap="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="10"/>
+        <line x1="12" y1="8" x2="12" y2="12"/>
+        <line x1="12" y1="16" x2="12.01" y2="16"/>
+      </svg>
+      How it works
+    </h2>
+    <ul class="dc-card__explanation" id="dc-explanation-list"></ul>
+  </div>
+
+  <!-- Variations -->
+  <div class="dc-card__section" id="dc-variations-section">
+    <h2 class="dc-card__section-title">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="2" stroke-linecap="round" aria-hidden="true">
+        <line x1="8" y1="6" x2="21" y2="6"/>
+        <line x1="8" y1="12" x2="21" y2="12"/>
+        <line x1="8" y1="18" x2="21" y2="18"/>
+        <line x1="3" y1="6" x2="3.01" y2="6"/>
+        <line x1="3" y1="12" x2="3.01" y2="12"/>
+        <line x1="3" y1="18" x2="3.01" y2="18"/>
+      </svg>
+      Variations
+    </h2>
+    <ul class="dc-card__variations" id="dc-variations-list"></ul>
+  </div>
+
+  <!-- History actions -->
+  <div class="dc-card__footer">
+    <button
+      id="dc-export-btn"
+      class="dc-btn dc-btn--ghost dc-btn--sm"
+      type="button"
+      aria-label="Export result to Markdown"
+    >
+      Export Markdown
+    </button>
+    <button
+      id="dc-share-btn"
+      class="dc-btn dc-btn--ghost dc-btn--sm"
+      type="button"
+      aria-label="Share this dork"
+    >
+      Share Link
+    </button>
+  </div>
+</article>
+
+<!-- Error state -->
+<div
+  id="dc-error-card"
+  class="dc-error dc-card--hidden"
+  role="alert"
+  aria-live="assertive"
+>
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+       stroke-width="2" stroke-linecap="round" aria-hidden="true">
+    <circle cx="12" cy="12" r="10"/>
+    <line x1="12" y1="8" x2="12" y2="12"/>
+    <line x1="12" y1="16" x2="12.01" y2="16"/>
+  </svg>
+  <span id="dc-error-message"></span>
+</div>
