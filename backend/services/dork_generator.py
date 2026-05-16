@@ -426,9 +426,33 @@ class DorkGenerator:
         build_fn = builder_map.get(category, builder_map["general"])
         dork, variations = build_fn()
 
+        # 4. Real-time validation
+        warnings = []
+        is_valid = True
+
+        # Check word limit (Google limit is approx 32 words)
+        word_count = len(dork.split())
+        if word_count > 32:
+            warnings.append(f"Query is very long ({word_count} words). Google may ignore terms beyond the 32nd word.")
+            is_valid = False
+
+        # Check for deprecated or sensitive operators
+        if "link:" in dork:
+            warnings.append("The 'link:' operator is largely deprecated and may not return accurate results.")
+        if "info:" in dork:
+            warnings.append("The 'info:' operator is deprecated.")
+        if "inanchor:" in dork:
+            warnings.append("The 'inanchor:' operator is often unreliable in modern Google searches.")
+        
+        # Check for potentially heavy queries
+        if dork.count("OR") > 10:
+            warnings.append("High number of OR operators detected. This may trigger a CAPTCHA.")
+
         return {
             "dork": dork,
             "explanation": cfg["explanation"],
             "variations": variations,
             "category": category,
+            "warnings": warnings,
+            "is_valid": is_valid,
         }

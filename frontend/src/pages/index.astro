@@ -161,6 +161,11 @@ const API_URL = import.meta.env.PUBLIC_API_URL ?? 'http://localhost:8000';
       const cheatBody    = document.getElementById('dc-cheat-body');
       const chips        = document.querySelectorAll('.dc-chip');
 
+      // Validation refs
+      const validIndicator = document.getElementById('dc-valid-indicator');
+      const warningsBox    = document.getElementById('dc-warnings-box');
+      const warningsList   = document.getElementById('dc-warnings-list');
+
       /** The last successful API result, kept for export/share. */
       let currentResult = null;
       let currentQuery  = '';
@@ -250,6 +255,25 @@ const API_URL = import.meta.env.PUBLIC_API_URL ?? 'http://localhost:8000';
 
         // Main dork
         dorkOutput.textContent = data.dork;
+
+        // Validation
+        if (data.is_valid) {
+          validIndicator.classList.remove('dc-card__valid--hidden');
+        } else {
+          validIndicator.classList.add('dc-card__valid--hidden');
+        }
+
+        if (data.warnings && data.warnings.length > 0) {
+          warningsBox.classList.remove('dc-card--hidden');
+          warningsList.innerHTML = '';
+          data.warnings.forEach(w => {
+            const li = document.createElement('li');
+            li.textContent = w;
+            warningsList.appendChild(li);
+          });
+        } else {
+          warningsBox.classList.add('dc-card--hidden');
+        }
 
         // Explanation
         explList.innerHTML = '';

@@ -29,6 +29,12 @@ class DorkResponse(BaseModel):
     category: Optional[str] = Field(
         None, description="Detected intent category (e.g., 'documents', 'people')."
     )
+    warnings: List[str] = Field(
+        default_factory=list, description="Validation warnings (length, deprecated operators, etc.)"
+    )
+    is_valid: bool = Field(
+        True, description="Whether the dork is likely to work in Google."
+    )
 
 
 class ErrorResponse(BaseModel):
