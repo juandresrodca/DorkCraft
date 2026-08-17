@@ -18,10 +18,10 @@ and DorkCraft builds the query for you.
 
 | You type | DorkCraft generates |
 |---|---|
-| Find PDF books about Linux malware | `filetype:pdf intitle:"linux malware"` |
-| LinkedIn profiles for SOC analysts in Ireland | `site:linkedin.com/in intitle:"soc analyst" "Ireland"` |
-| Exposed Apache directory listings | `intitle:"index of" "apache" -htm -html` |
-| Public GitHub repos about threat intelligence | `site:github.com intitle:"threat intelligence"` |
+| Find PDF books about Linux malware  | `filetype:pdf intitle:"linux malware"` |
+| LinkedIn profiles for SOC analysts in Ireland  | `site:linkedin.com/in intitle:"soc analyst" "Ireland"` |
+| Exposed Apache directory listings  | `intitle:"index of" "apache" -htm -html` |
+| Public GitHub repos about threat intelligence  | `site:github.com intitle:"threat intelligence"` |
 
 ---
 
@@ -100,7 +100,7 @@ Open http://localhost:4321 — the frontend will call the backend at `http://loc
 
 ### Frontend (GitHub Pages)
 
-1. In your repo → **Settings → Pages** → set source to **GitHub Actions**.
+1. In your repo → **Settings → Pages** →  set source to **GitHub Actions**.
 2. Push to `main`. The `deploy.yml` workflow builds and deploys automatically.
 3. Your site will be live at `https://juandresrodca.github.io/DorkCraft/`.
 
