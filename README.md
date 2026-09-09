@@ -151,6 +151,12 @@ Add new safety rules by extending `BLOCKED_PATTERNS`.
 
 ---
 
-## License
+## Licence
 
-MIT — use freely, contribute back.
+[MIT](LICENSE) © 2026 Juan Andres Rodriguez — use it, fork it, ship it.
+
+The permissive licence is deliberate: DorkCraft is meant to end up inside other
+people's OSINT tooling. Vendor the `DorkGenerator` class into your own project,
+wrap the API in an internal service, or ship a fork with your own category rules —
+all fine, commercially too. Keep the copyright notice, and the safety blocklist is
+yours to maintain from that point on.
