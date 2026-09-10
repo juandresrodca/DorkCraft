@@ -132,6 +132,12 @@ Blocked queries return `{"error": "Unsafe or disallowed query."}` — no dork is
 
 **You are responsible for how you use the results.** Always respect privacy, terms of service, and applicable laws.
 
+[SECURITY.md](SECURITY.md) states this properly: how to report a vulnerability
+privately, what is and is not in scope, what the blocklist actually guarantees
+(less than it looks like — it is a keyword filter, and it over-refuses), what to
+change in `ALLOWED_ORIGINS` before you deploy the API yourself, and the
+responsible-use rules that come with the tool.
+
 ---
 
 ## Extending DorkCraft (AI-ready)
