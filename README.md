@@ -8,11 +8,11 @@
 
 ## What is DorkCraft?
 
-DorkCraft transforms natural language queries into precise [Google dork](https://en.wikipedia.org/wiki/Google_hacking) operators. Instead of remembering syntax like `filetype:pdf intitle:"linux malware"`, you just type:
+DorkCraft transforms natural language queries into precise [Google dork](https://en.wikipedia.org/wiki/Google_hacking) operators.  Instead of remembering syntax like `filetype:pdf intitle:"linux malware"`, you just type:
 
 > *"Find PDF books about Linux malware analysis"*
 
-and DorkCraft builds the query for you.
+and DorkCraft builds the query for  you.
 
 ### Example inputs → outputs
 
