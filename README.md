@@ -155,6 +155,25 @@ class DorkGenerator:
 Add new intent categories by extending the `CATEGORIES` dict.
 Add new safety rules by extending `BLOCKED_PATTERNS`.
 
+[CONTRIBUTING.md](CONTRIBUTING.md) walks through both, including the third step
+people forget — registering the new category in `builder_map`, without which it
+is detected and then silently falls through to `general`.
+
+---
+
+## Contributing
+
+Dork lists grow by submission, so the submission format is written down rather
+than improvised: category, operator string, purpose, legal caveat, source and
+the date you actually ran it. Fill those six fields into an issue titled
+`dork: <short description>` and a maintainer can act on it without a
+conversation.
+
+**[→ CONTRIBUTING.md](CONTRIBUTING.md)** — the submission format with a worked
+example, how to add an intent category end to end, the local setup for both
+halves, and what a pull request is expected to show while there is no test
+suite.
+
 ---
 
 ## Licence
