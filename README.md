@@ -111,10 +111,21 @@ Deploy the `backend/` folder to any Python host:
 | Platform | Notes |
 |---|---|
 | [Railway](https://railway.app) | One-click Python deploy |
-| [Render](https://render.com) | Free tier available |
+| [Render](https://render.com) | Free tier available; `render.yaml` is in the repo |
 | [Fly.io](https://fly.io) | Great for small APIs |
 
 After deploying, add the backend URL as a GitHub secret named `VITE_API_URL`. The Actions workflow injects it at build time via `PUBLIC_API_URL`.
+
+### Self-hosting both halves
+
+Security teams generally will not type a query into somebody else's OSINT tool,
+and they are right not to. [docs/self-hosting.md](docs/self-hosting.md) covers
+running the whole thing yourself: a Dockerfile to paste, a Compose file for the
+API plus the static build, the Render blueprint walkthrough, the two environment
+variables that matter, an nginx reverse proxy that puts both halves on one origin
+(which removes CORS entirely) and adds the rate limiting the API does not ship
+with — and the offline story, which is real: the backend makes no outbound
+connections, so the query you type never leaves your network.
 
 ---
 
