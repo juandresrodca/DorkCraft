@@ -187,6 +187,18 @@ suite.
 
 ---
 
+## Changelog
+
+[CHANGELOG.md](CHANGELOG.md) records what landed and when, reconstructed from the
+commit history — there are no tagged releases yet, and the `version="1.0.0"` in
+`backend/main.py` is FastAPI app metadata rather than a release. It also carries the
+known faults, including the one that stops the
+[published site](https://juandresrodca.github.io/DorkCraft/) generating a dork
+([#1](https://github.com/juandresrodca/DorkCraft/issues/1)); running both halves
+locally is unaffected.
+
+---
+
 ## Licence
 
 [MIT](LICENSE) © 2026 Juan Andres Rodriguez — use it, fork it, ship it.
