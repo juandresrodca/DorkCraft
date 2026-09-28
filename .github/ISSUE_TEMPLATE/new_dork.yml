@@ -1,0 +1,121 @@
+name: "🔍 Submit a dork"
+description: Propose an operator string for the engine to generate.
+title: "dork: "
+labels: ["dork submission"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This is the main contribution path, and **you do not need to be a Python developer
+        to use it** — a good submission is search knowledge, not code.
+
+        The six fields below are the ones
+        [CONTRIBUTING](https://github.com/juandresrodca/DorkCraft/blob/main/CONTRIBUTING.md#submitting-a-dork)
+        asks for, in the same order. All six are required, because a maintainer needs to be
+        able to act on the submission without a conversation first. **Legal caveat** and
+        **Verified on** are the two that get skipped most often, and they are the difference
+        between a curated list and a scraped one.
+
+        Read [Scope](https://github.com/juandresrodca/DorkCraft/blob/main/CONTRIBUTING.md#scope-what-belongs-in-dorkcraft)
+        before you fill this in. DorkCraft is for finding information somebody **chose to
+        publish**. A submission on the wrong side of that line is closed rather than tuned.
+
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      description: An existing `CATEGORIES` key, or "new category" if none of them fit.
+      options:
+        - documents
+        - people
+        - linkedin
+        - github
+        - academic
+        - directories
+        - social_media
+        - company
+        - general
+        - "new category (make the case below)"
+    validations:
+      required: true
+
+  - type: input
+    id: new_category
+    attributes:
+      label: If new — the name and the one-line case for it
+      description: >
+        A category earns its place when an existing one would produce a materially worse
+        query, not merely a differently-worded one.
+      placeholder: "standards — RFCs and ISO/NIST documents land under `documents` today and lose the publishing body"
+
+  - type: textarea
+    id: operator
+    attributes:
+      label: Operator string
+      description: >
+        The dork exactly as you would type it into Google. Placeholders in angle
+        brackets — `<topic>`, `<domain>`.
+      render: text
+      placeholder: site:arxiv.org filetype:pdf intitle:<topic> after:2024-01-01
+    validations:
+      required: true
+
+  - type: textarea
+    id: purpose
+    attributes:
+      label: Purpose
+      description: One sentence on what a person is trying to find, and who that person is.
+      placeholder: >
+        A researcher wants recent arXiv preprints on a topic as PDFs, without arXiv's own
+        listing pages diluting the results.
+    validations:
+      required: true
+
+  - type: textarea
+    id: caveat
+    attributes:
+      label: Legal caveat
+      description: >
+        What the searcher must own, be authorised for, or respect.
+        *"None — results are published by their subjects for this purpose"* is a valid
+        answer, but write it explicitly. Leaving this blank is the single most common reason
+        a submission stalls.
+      placeholder: >
+        None. arXiv publishes these openly and its robots policy permits indexing; respect
+        the rate limits if you automate the search.
+    validations:
+      required: true
+
+  - type: input
+    id: source
+    attributes:
+      label: Source
+      description: >
+        Where you got it — your own work, an operator reference, a write-up. Link it.
+        Do **not** paste from a dork database with a restrictive licence.
+      placeholder: My own, built from arXiv's stated URL structure
+    validations:
+      required: true
+
+  - type: input
+    id: verified
+    attributes:
+      label: Verified on
+      description: The date you actually ran it, and roughly what came back.
+      placeholder: 11 September 2026 — about 40 results, all preprints from 2024 onwards, no listing pages
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: confirmations
+    attributes:
+      label: Before you submit
+      options:
+        - label: I ran this operator string myself on the date above. I have not copied it untested.
+          required: true
+        - label: It targets information published for public consumption — not credentials, keys, tokens, payment data, personal records, or a named private individual.
+          required: true
+        - label: It contains no real host, path or identifier belonging to an estate I do not own.
+          required: true
+        - label: The source above permits reuse. I have not lifted it from a restrictively licensed dork database.
+          required: true

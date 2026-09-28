@@ -1,0 +1,18 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Report a security problem privately
+    url: https://github.com/juandresrodca/DorkCraft/security/advisories/new
+    about: >
+      Anything in the engine, the API surface or a deployment that you would rather not
+      discuss in public — including a way past BLOCKED_PATTERNS. SECURITY.md sets out the
+      scope and is honest that the blocklist guarantees less than it looks like.
+  - name: An operator is refused and you think it should not be
+    url: https://github.com/juandresrodca/DorkCraft/blob/main/CONTRIBUTING.md#touching-the-blocklist
+    about: >
+      BLOCKED_PATTERNS over-refuses on purpose. Narrowing one is a welcome pull request if
+      it shows a phrasing that starts passing and one that still fails — read this first.
+  - name: What belongs in DorkCraft
+    url: https://github.com/juandresrodca/DorkCraft/blob/main/CONTRIBUTING.md#scope-what-belongs-in-dorkcraft
+    about: >
+      The scope table, and why the line is not a formality. Worth two minutes before
+      proposing anything.

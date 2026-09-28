@@ -114,8 +114,11 @@ curl -s localhost:8000/generate -H 'Content-Type: application/json' \
 ## Submitting a dork
 
 This is the main contribution path, and it has a strict shape so that a
-maintainer can act on it without a conversation. Open an issue titled
-`dork: <short description>` containing exactly these six fields.
+maintainer can act on it without a conversation. The easiest way to get it right
+is the **Submit a dork** form at
+[New issue → choose](https://github.com/juandresrodca/DorkCraft/issues/new/choose),
+which asks for exactly these six fields and will not submit without them. By
+hand, open an issue titled `dork: <short description>` containing all six.
 
 | Field | Rules |
 |---|---|

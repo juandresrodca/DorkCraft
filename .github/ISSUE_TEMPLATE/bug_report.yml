@@ -1,0 +1,99 @@
+name: "🐛 Bug report"
+description: The site, the API or a generated dork does something wrong.
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        DorkCraft is two halves that meet over one HTTP call, so the first thing to
+        establish is **which half**, and whether you are on the hosted site or your own
+        instance. The configuration questions below are not filler — the two issues open
+        today ([#1](https://github.com/juandresrodca/DorkCraft/issues/1),
+        [#2](https://github.com/juandresrodca/DorkCraft/issues/2)) are both about
+        `PUBLIC_API_URL` and `ALLOWED_ORIGINS`.
+
+        Proposing a new operator string is not a bug — use **Submit a dork** instead.
+
+  - type: dropdown
+    id: surface
+    attributes:
+      label: Where did it happen?
+      options:
+        - "The hosted site (juandresrodca.github.io/DorkCraft)"
+        - "My own deployment — frontend and backend"
+        - "My own backend only, called directly (curl, /docs, a script)"
+        - "Local development (npm run dev / uvicorn)"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: half
+    attributes:
+      label: Which half is misbehaving?
+      description: >
+        If the page renders but nothing comes back, it is usually the call between them —
+        pick "the call" and paste what the network tab shows.
+      options:
+        - "The engine — a dork was generated, and it is wrong"
+        - "The engine — a legitimate query was refused"
+        - "The call between frontend and backend (CORS, empty API URL, non-200)"
+        - "The frontend — rendering, copy button, layout"
+        - "Something else"
+    validations:
+      required: true
+
+  - type: input
+    id: query
+    attributes:
+      label: What you typed
+      description: The plain-English query, verbatim.
+      placeholder: Find PDF books about Linux malware analysis
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: What came back
+      description: >
+        The generated operator string, or the error. For a failed call, include the status
+        code and the console/network output — that is where a CORS refusal actually shows up.
+      render: text
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected instead
+      description: >
+        For a wrong dork, the operator string you think it should have produced, and why.
+        For a wrongly refused query — see `BLOCKED_PATTERNS`, which over-refuses on
+        purpose — say which pattern you think caught it.
+    validations:
+      required: true
+
+  - type: textarea
+    id: config
+    attributes:
+      label: Configuration (self-hosted only)
+      description: >
+        The values of `PUBLIC_API_URL` and `ALLOWED_ORIGINS`, and where each is set — build
+        environment, `render.yaml`, or edited in source. **Redact any host you would rather
+        not publish**, but say the shape: trailing slash, scheme, port.
+      render: shell
+      placeholder: |
+        PUBLIC_API_URL=https://<redacted>.onrender.com     # set at build time in Pages
+        ALLOWED_ORIGINS=*                                   # default in main.py
+
+  - type: checkboxes
+    id: confirmations
+    attributes:
+      label: Before you submit
+      options:
+        - label: I have checked the open issues and this is not already tracked in #1 or #2.
+          required: true
+        - label: Nothing pasted above contains a credential, a token or a host I am not willing to publish.
+          required: true
+        - label: This is not a security problem — those go to SECURITY.md, not the issue tracker.
+          required: true
