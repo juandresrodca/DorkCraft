@@ -23,6 +23,17 @@ and DorkCraft builds the query for  you.
 | Exposed Apache directory listings  | `intitle:"index of" "apache" -htm -html` |
 | Public GitHub repos about threat intelligence  | `site:github.com intitle:"threat intelligence"` |
 
+### What it is not
+
+DorkCraft is a query *builder*, not a dork library and not a scanner. It never
+submits a search on your behalf, and the backend makes no outbound request at all.
+
+[docs/positioning.md](docs/positioning.md) sets that out properly: who the tool is
+for and who it is deliberately not for, how it differs from the Google Hacking
+Database and from form-based dork builders, and the canonical one-line description
+and homepage the repository settings should carry — with the reasoning, so the
+wording is not re-invented every time somebody opens the settings page.
+
 ---
 
 ## Stack
