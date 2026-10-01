@@ -196,6 +196,9 @@ example, how to add an intent category end to end, the local setup for both
 halves, and what a pull request is expected to show while there is no test
 suite.
 
+Participation is governed by the [Code of Conduct](CODE_OF_CONDUCT.md) —
+Contributor Covenant 2.1, with a note on where scope disagreements go instead.
+
 ---
 
 ## Changelog

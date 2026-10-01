@@ -242,6 +242,16 @@ TypeScript in the frontend rather than plain JavaScript.
 
 ---
 
+## Conduct
+
+Participation is governed by the [Code of Conduct](CODE_OF_CONDUCT.md).
+Arguing that the blocklist over-refuses, or that a dork belongs on the other
+side of the scope table, is the normal business of this repository and is
+welcome. Pressing after the scope question has been answered is not, and that
+is the distinction the document draws.
+
+---
+
 ## Licence
 
 By contributing you agree that your work is published under the
