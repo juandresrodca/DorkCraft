@@ -34,6 +34,13 @@ Database and from form-based dork builders, and the canonical one-line descripti
 and homepage the repository settings should carry — with the reasoning, so the
 wording is not re-invented every time somebody opens the settings page.
 
+[docs/comparison.md](docs/comparison.md) answers the next question — *why not the
+tool I already use?* — against the Google Hacking Database, the two runners most
+people mean by "a dork tool" (pagodo and sitedorks), the Bash recon scanners and
+Google's own advanced search form. Three of the five comparisons end with *use the
+other one*, which is the only way a comparison page is worth anything; the four
+places DorkCraft is genuinely behind are listed there too.
+
 ---
 
 ## Stack
