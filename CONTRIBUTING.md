@@ -238,7 +238,10 @@ explaining *why* when the subject cannot carry it.
 
 Keep the existing style: British spelling in prose, four-space indentation and
 type hints in Python, the section-banner comments the modules already use, and
-TypeScript in the frontend rather than plain JavaScript.
+TypeScript in the frontend rather than plain JavaScript. The indentation and
+line-ending half of that is in [`.editorconfig`](.editorconfig), so most editors
+will apply it for you — VS Code needs the EditorConfig extension that
+`frontend/.vscode/extensions.json` already recommends.
 
 ---
 
