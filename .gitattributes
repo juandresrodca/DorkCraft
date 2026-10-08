@@ -1,0 +1,23 @@
+# Normalise line endings: LF in the repo, LF in the working tree.
+* text=auto eol=lf
+
+# Backend — read by pip and by python on Linux.
+*.py             text eol=lf
+requirements.txt text eol=lf
+
+# Frontend.
+*.astro text eol=lf
+*.ts    text eol=lf
+*.mjs   text eol=lf
+*.json  text eol=lf
+*.css   text eol=lf
+
+# Deployment and CI definitions, consumed on Linux.
+*.yml  text eol=lf
+*.yaml text eol=lf
+
+# Binaries — explicit, so nothing depends on content sniffing.
+*.ico   binary
+*.png   binary
+*.jpg   binary
+*.woff2 binary

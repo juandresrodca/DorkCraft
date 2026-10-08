@@ -241,7 +241,11 @@ type hints in Python, the section-banner comments the modules already use, and
 TypeScript in the frontend rather than plain JavaScript. The indentation and
 line-ending half of that is in [`.editorconfig`](.editorconfig), so most editors
 will apply it for you — VS Code needs the EditorConfig extension that
-`frontend/.vscode/extensions.json` already recommends.
+`frontend/.vscode/extensions.json` already recommends. If you do not install it,
+[`.gitattributes`](.gitattributes) still holds the line: it normalises every text
+file to LF on the way into the repository, whatever your `core.autocrlf` is set
+to, so a Windows clone cannot commit CRLF into `requirements.txt` or
+`render.yaml` by accident.
 
 ---
 
