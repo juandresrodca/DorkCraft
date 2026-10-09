@@ -110,22 +110,38 @@ deliberately holds no administration scope.
 
 ## Where it sits among the alternatives
 
-Stated plainly, because a description implying more than this would be overselling it:
+The short answer is three bullets. [`comparison.md`](comparison.md) is the long
+one — five alternatives in a table, three of which end in *use the other one* —
+and it is the only page in this repository that carries dated figures. Star
+counts, licences and operator coverage live there and nowhere else, so there is
+exactly one page to refresh when a number moves.
 
-- The [Google Hacking Database](https://www.exploit-db.com/google-hacking-database)
+- **Libraries.** The [Google Hacking Database](https://www.exploit-db.com/google-hacking-database)
   is a curated corpus of dorks people have already written. It is a library;
-  DorkCraft is a builder. They are complementary, and GHDB is the better starting
-  point whenever an existing dork already matches the question.
-- Form-based dork builders give you a field per operator and leave the intent to
-  you. DorkCraft's difference is that it classifies the sentence first and picks
+  DorkCraft is a builder. GHDB is the better first stop whenever an existing dork
+  already matches the question.
+  [Detail](comparison.md#against-the-google-hacking-database).
+- **Forms.** Form-based builders give you a field per operator and leave the intent
+  to you. DorkCraft's difference is that it classifies the sentence first and picks
   the operators from that — worth something when you do not yet know which
   operator you want, and worth nothing when you do.
-- Automated dork *runners* submit queries to a search engine and collect results.
-  DorkCraft does not, and is not going to: the backend never makes an outbound
-  request, which is the property that makes an offline deployment possible at all.
+  [Detail](comparison.md#against-form-based-builders).
+- **Runners.** Automated dork runners submit queries to a search engine and collect
+  the results. DorkCraft does not, and is not going to: the backend never makes an
+  outbound request, which is the property that makes an offline deployment possible
+  at all. [Detail](comparison.md#against-the-runners--pagodo-and-sitedorks).
+
+Anything past those three bullets belongs in `comparison.md`: the shell-script
+scanners, the operator counts, the licence column, the four things DorkCraft is
+genuinely ahead on and the four it is behind on. The split is by reader, not by
+length. Somebody on this page is deciding how to *describe* the tool in a hundred
+characters; somebody on that page is deciding whether to *use* it instead of
+something they already have.
 
 ---
 
 *Keep this page and the repository settings in step. If the description changes on
 github.com, change it here in the same sitting — a positioning document that
-disagrees with the live metadata is worse than no document.*
+disagrees with the live metadata is worse than no document. The same applies to
+[`comparison.md`](comparison.md): a claim about an alternative is edited there, and
+this page follows only if the three-bullet summary stops being true.*
