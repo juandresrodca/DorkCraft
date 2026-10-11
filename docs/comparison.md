@@ -139,6 +139,85 @@ Four things, and the list is short deliberately.
 
 ---
 
+## Provenance of the dated figures
+
+Every number on this page that can move was read with one of the commands below.
+They are here so that a refresh is a copy-paste rather than a reconstruction, and
+so that a reader three months from now can tell which call produced which cell.
+Running all four takes under a minute and costs six API calls.
+
+**Star counts and licences** — the `Licence` row, the counts in *Against the
+runners* and *Against the shell-script scanners*, and the two "publishes no
+licence file" claims:
+
+```bash
+for r in opsdisk/pagodo Zarcolio/sitedorks \
+         IvanGlinkin/Fast-Google-Dorks-Scan m3n0sd0n4ld/uDork; do
+  curl -s "https://api.github.com/repos/$r" | python3 -c '
+import sys, json
+d = json.load(sys.stdin)
+lic = (d.get("license") or {}).get("spdx_id") or "none"
+print("%-38s %6d  %s" % (d["full_name"], d["stargazers_count"], lic))'
+done
+```
+
+`spdx_id` is `NOASSERTION` when a licence file exists but GitHub cannot identify
+it, and the whole `license` object is `null` when there is none — which is the
+state both Bash scanners are in, and the distinction the licence note in the
+README turns on. Do not infer it from the repository page; the sidebar omits the
+field rather than saying "none".
+
+**Operators DorkCraft emits** — the `5` in the `Operators it emits` row, and
+*Five operators* under *Where it is behind*:
+
+```bash
+sed -n '/^def _build_document_dork/,/^class /p' backend/services/dork_generator.py \
+  | grep -oE '\b(site|filetype|intitle|intext|inurl|inanchor|numrange|AROUND):' \
+  | sort -u
+```
+
+The range matters. Grepping the whole module returns six, because `generate()`
+carries a branch that warns when a dork contains `inanchor:` — an operator no
+builder emits. A count that includes it is counting the warning, not the output.
+
+**Intent categories** — the *nine intent categories* in *Against form-based
+builders*:
+
+```bash
+python3 -c 'import re; s=open("backend/services/dork_generator.py").read();
+print(len(re.findall(r"^    \"[a-z_]+\": \{", s[s.index("CATEGORIES = {"):], re.M)))'
+```
+
+Top-level keys of `CATEGORIES` only. The four-space indent is what excludes the
+nested `filetype_map` under `documents`.
+
+**The open issues this page cites** — #1 under *Where it is behind*, and #3 in
+the classifier bullet:
+
+```bash
+for n in 1 3; do
+  curl -s "https://api.github.com/repos/juandresrodca/DorkCraft/issues/$n" \
+    | python3 -c 'import sys,json; d=json.load(sys.stdin); print(d["number"], d["state"])'
+done
+```
+
+Both were open when this block was written. If either closes, the bullet citing
+it stops being true and has to be rewritten rather than deleted — a fault that
+was fixed is worth more to a reader than a fault that was never mentioned.
+
+The figures above are **not** refreshed by this block; the 6 October 2026 date
+line still stands and the numbers beside it are still that morning's. Refreshing
+them and adding the provenance in one commit would have made either half
+impossible to review.
+
+Two things on this page deliberately have no command. GHDB's corpus size is
+*thousands*, unqualified, because OffSec publishes no count and an exact one
+would be a scrape that goes stale the week it is taken. Google Advanced Search's
+`~8` is an eyeball count of the form's fields; it carries a tilde for that
+reason. Where a figure cannot be derived from a stated call, say so — that is
+cheaper than a precise number nobody can re-read.
+---
+
 *Keep this page truthful as the alternatives move. Star counts and licences were
 read on 6 October 2026; the categories are structural and will not drift, but a
 tool that adds a licence or an operator set makes a row here wrong. If a claim in
