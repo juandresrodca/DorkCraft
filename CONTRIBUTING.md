@@ -228,6 +228,11 @@ description. Include:
   `services/`, and no outbound calls from the engine.
 - **A changed README** if you changed behaviour a user can see.
 
+[`.github/pull_request_template.md`](.github/pull_request_template.md) carries all
+four of those as checkboxes, alongside the six dork submission fields, so the
+description box arrives with them already in it. Most of it is deletable — a typo fix
+or a docs-only change needs the first section and nothing else.
+
 Adding pytest to `backend/` is itself a genuinely useful contribution and would
 be reviewed happily — start with `is_safe_query()` and `_detect_category()`,
 which are pure functions and need no fixtures.
