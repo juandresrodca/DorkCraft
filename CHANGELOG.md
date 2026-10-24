@@ -35,6 +35,51 @@ release onwards.
 
 ---
 
+## 2026-10-11
+
+### Changed
+
+- **Every dated figure in [`docs/comparison.md`](docs/comparison.md) now names the
+  command that produced it.** A *Provenance of the dated figures* section carries the
+  four calls behind the star counts, licences, operator coverage and release dates, so
+  refreshing the page is a copy-paste rather than a reconstruction, and a reader can
+  tell which call produced which cell. It also records what the GitHub API returns when
+  a repository's licence cannot be identified, which is the distinction two of the
+  claims on that page turn on.
+
+## 2026-10-09
+
+### Changed
+
+- **[`docs/positioning.md`](docs/positioning.md) defers to the comparison page on the
+  alternatives.** Both pages had asserted facts about GHDB, the form builders and the
+  runners — two pages to keep in step, and the failure mode positioning.md closes by
+  warning against. The three bullets stay as the short answer and now link to the
+  matching comparison sections, and dated figures live in `comparison.md` alone, so
+  there is exactly one page to refresh when a number moves.
+
+## 2026-10-06
+
+### Added
+
+- **A comparison against the alternatives** ([`docs/comparison.md`](docs/comparison.md)):
+  five tools grouped by what they actually are — a library, two runners, a form — on the
+  grounds that the category decides most of the answer. Three of the five end with *use
+  the other one*, including GHDB whenever a dork already exists for the question. It also
+  states where DorkCraft is behind, and every figure in it was read from the GitHub API
+  on the date the page gives.
+
+## 2026-10-01
+
+### Added
+
+- **Code of conduct** ([`CODE_OF_CONDUCT.md`](CODE_OF_CONDUCT.md), Contributor Covenant
+  2.1), linked from the README and [`CONTRIBUTING.md`](CONTRIBUTING.md). DorkCraft is the
+  repository most likely to attract a scope argument — `BLOCKED_PATTERNS` over-refuses by
+  design and the scope table turns submissions away on purpose — and until now that
+  argument had nowhere defined to go. A note under *Enforcement* separates a scope
+  decision, which is a maintainer call, from a conduct problem, which is not.
+
 ## 2026-09-21
 
 ### Added
