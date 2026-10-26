@@ -134,6 +134,15 @@ Deploy the `backend/` folder to any Python host:
 
 After deploying, add the backend URL as a GitHub secret named `VITE_API_URL`. The Actions workflow injects it at build time via `PUBLIC_API_URL`.
 
+> **Before that instance is reachable:** the shipped `ALLOWED_ORIGINS` in
+> [`backend/main.py`](backend/main.py) ends with `"*"`. That is a demo default, and
+> [`docs/self-hosting.md`](docs/self-hosting.md) calls changing it step one of every
+> deployment rather than an optional hardening pass. Credentials are already disabled
+> (`allow_credentials=False`), so it is not a session-theft route — but until you replace
+> the list with your own origins, anyone's page can call your instance and spend your
+> quota. It is a source constant today, so changing it means editing Python; that is
+> tracked in [#2](https://github.com/juandresrodca/DorkCraft/issues/2).
+
 ### Self-hosting both halves
 
 Security teams generally will not type a query into somebody else's OSINT tool,
