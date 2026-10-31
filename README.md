@@ -1,6 +1,6 @@
 # DorkCraft 🔍
 
-> Generate advanced Google search operators from plain English — built for OSINT, academic research, and public information discovery.
+> Generate advanced Google search operators from plain English, built for OSINT, academic research, and public information discovery.
 
 **Live site:** https://juandresrodca.github.io/DorkCraft/
 
@@ -31,11 +31,11 @@ submits a search on your behalf, and the backend makes no outbound request at al
 [docs/positioning.md](docs/positioning.md) sets that out properly: who the tool is
 for and who it is deliberately not for, how it differs from the Google Hacking
 Database and from form-based dork builders, and the canonical one-line description
-and homepage the repository settings should carry — with the reasoning, so the
+and homepage the repository settings should carry, with the reasoning, so the
 wording is not re-invented every time somebody opens the settings page.
 
-[docs/comparison.md](docs/comparison.md) answers the next question — *why not the
-tool I already use?* — against the Google Hacking Database, the two runners most
+[docs/comparison.md](docs/comparison.md) answers the next question (*why not the
+tool I already use?*) against the Google Hacking Database, the two runners most
 people mean by "a dork tool" (pagodo and sitedorks), the Bash recon scanners and
 Google's own advanced search form. Three of the five comparisons end with *use the
 other one*, which is the only way a comparison page is worth anything; the four
@@ -110,7 +110,7 @@ npm install
 npm run dev
 ```
 
-Open http://localhost:4321 — the frontend will call the backend at `http://localhost:8000` by default.
+Open http://localhost:4321. The frontend will call the backend at `http://localhost:8000` by default.
 
 ---
 
@@ -138,7 +138,7 @@ After deploying, add the backend URL as a GitHub secret named `VITE_API_URL`. Th
 > [`backend/main.py`](backend/main.py) ends with `"*"`. That is a demo default, and
 > [`docs/self-hosting.md`](docs/self-hosting.md) calls changing it step one of every
 > deployment rather than an optional hardening pass. Credentials are already disabled
-> (`allow_credentials=False`), so it is not a session-theft route — but until you replace
+> (`allow_credentials=False`), so it is not a session-theft route, but until you replace
 > the list with your own origins, anyone's page can call your instance and spend your
 > quota. It is a source constant today, so changing it means editing Python; that is
 > tracked in [#2](https://github.com/juandresrodca/DorkCraft/issues/2).
@@ -151,7 +151,7 @@ running the whole thing yourself: a Dockerfile to paste, a Compose file for the
 API plus the static build, the Render blueprint walkthrough, the two environment
 variables that matter, an nginx reverse proxy that puts both halves on one origin
 (which removes CORS entirely) and adds the rate limiting the API does not ship
-with — and the offline story, which is real: the backend makes no outbound
+with, and the offline story, which is real: the backend makes no outbound
 connections, so the query you type never leaves your network.
 
 ---
@@ -166,13 +166,13 @@ DorkCraft enforces a blocklist of harmful query patterns at the backend level:
 - ❌ Exploit or injection queries
 - ❌ Unauthorised access requests
 
-Blocked queries return `{"error": "Unsafe or disallowed query."}` — no dork is generated.
+Blocked queries return `{"error": "Unsafe or disallowed query."}`. No dork is generated.
 
 **You are responsible for how you use the results.** Always respect privacy, terms of service, and applicable laws.
 
 [SECURITY.md](SECURITY.md) states this properly: how to report a vulnerability
 privately, what is and is not in scope, what the blocklist actually guarantees
-(less than it looks like — it is a keyword filter, and it over-refuses), what to
+(less than it looks like: it is a keyword filter, and it over-refuses), what to
 change in `ALLOWED_ORIGINS` before you deploy the API yourself, and the
 responsible-use rules that come with the tool.
 
@@ -194,7 +194,7 @@ Add new intent categories by extending the `CATEGORIES` dict.
 Add new safety rules by extending `BLOCKED_PATTERNS`.
 
 [CONTRIBUTING.md](CONTRIBUTING.md) walks through both, including the third step
-people forget — registering the new category in `builder_map`, without which it
+people forget: registering the new category in `builder_map`, without which it
 is detected and then silently falls through to `general`.
 
 ---
@@ -207,12 +207,12 @@ the date you actually ran it. Fill those six fields into an issue titled
 `dork: <short description>` and a maintainer can act on it without a
 conversation.
 
-**[→ CONTRIBUTING.md](CONTRIBUTING.md)** — the submission format with a worked
+**[→ CONTRIBUTING.md](CONTRIBUTING.md)**: the submission format with a worked
 example, how to add an intent category end to end, the local setup for both
 halves, and what a pull request is expected to show while there is no test
 suite.
 
-Participation is governed by the [Code of Conduct](CODE_OF_CONDUCT.md) —
+Participation is governed by the [Code of Conduct](CODE_OF_CONDUCT.md),
 Contributor Covenant 2.1, with a note on where scope disagreements go instead.
 
 ---
@@ -220,7 +220,7 @@ Contributor Covenant 2.1, with a note on where scope disagreements go instead.
 ## Changelog
 
 [CHANGELOG.md](CHANGELOG.md) records what landed and when, reconstructed from the
-commit history — there are no tagged releases yet, and the `version="1.0.0"` in
+commit history. There are no tagged releases yet, and the `version="1.0.0"` in
 `backend/main.py` is FastAPI app metadata rather than a release. It also carries the
 known faults, including the one that stops the
 [published site](https://juandresrodca.github.io/DorkCraft/) generating a dork
@@ -231,10 +231,10 @@ locally is unaffected.
 
 ## Licence
 
-[MIT](LICENSE) © 2026 Juan Andres Rodriguez — use it, fork it, ship it.
+[MIT](LICENSE) © 2026 Juan Andres Rodriguez: use it, fork it, ship it.
 
 The permissive licence is deliberate: DorkCraft is meant to end up inside other
 people's OSINT tooling. Vendor the `DorkGenerator` class into your own project,
-wrap the API in an internal service, or ship a fork with your own category rules —
-all fine, commercially too. Keep the copyright notice, and the safety blocklist is
+wrap the API in an internal service, or ship a fork with your own category rules.
+All of that is fine, commercially too. Keep the copyright notice, and the safety blocklist is
 yours to maintain from that point on.
