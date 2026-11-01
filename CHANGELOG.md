@@ -145,3 +145,10 @@ release onwards.
 
 - The frontend moved from a git submodule into the repository, so a single clone gets a
   working checkout of both halves.
+
+<!-- Comparison links. DorkCraft carries no git tags, so [Unreleased] points at the
+     commit log rather than a compare diff: there is no earlier anchor to diff from.
+     When 0.1.0 is tagged, change this to a compare link from that tag to HEAD and
+     give each version section its own definition. The dated headings above record
+     when work landed on main rather than releases, so they stay as plain text. -->
+[Unreleased]: https://github.com/juandresrodca/DorkCraft/commits/main
