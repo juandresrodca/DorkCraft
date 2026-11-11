@@ -146,9 +146,9 @@ release onwards.
 - The frontend moved from a git submodule into the repository, so a single clone gets a
   working checkout of both halves.
 
-<!-- Comparison links. DorkCraft carries no git tags, so [Unreleased] points at the
-     commit log rather than a compare diff: there is no earlier anchor to diff from.
-     When 0.1.0 is tagged, change this to a compare link from that tag to HEAD and
-     give each version section its own definition. The dated headings above record
-     when work landed on main rather than releases, so they stay as plain text. -->
+<!-- Comparison links. Anchored by the rule in [EntraHuntKit/docs/changelog-anchors.md](https://github.com/juandresrodca/EntraHuntKit/blob/main/docs/changelog-anchors.md#the-anchor-rule),
+     which is stated there once and cited here: GET /repos/juandresrodca/DorkCraft/tags
+     returns an empty list, so [Unreleased] points at the commit log under rule 4. The
+     dated headings above record when work landed on main rather than releases, so they
+     are not versions and take no definition. -->
 [Unreleased]: https://github.com/juandresrodca/DorkCraft/commits/main
