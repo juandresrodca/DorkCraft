@@ -13,16 +13,26 @@ release onwards.
 
 ## [Unreleased]
 
-### Known issues
+### Added
 
-- **The published site cannot generate a dork.** Three faults compound on
-  <https://juandresrodca.github.io/DorkCraft/>: `PUBLIC_API_URL` is empty in the deployed
-  build, the API's `ALLOWED_ORIGINS` is an exact-match list that does not include the
-  Pages origin, and the frontend reports the resulting failure as a query problem rather
-  than a connectivity one. Tracked in
-  [#1](https://github.com/juandresrodca/DorkCraft/issues/1). Running both halves locally,
-  or self-hosting them behind one origin as
-  [`docs/self-hosting.md`](docs/self-hosting.md) describes, is unaffected.
+- **The live site says when the API is waking up.** The demo API runs on a free
+  instance that sleeps after 15 idle minutes and takes 40 to 50 seconds to wake. After
+  three seconds without an answer the page now explains the wait instead of showing only
+  a spinner.
+- **`.github/workflows/keep-warm.yml` pings the API every ten minutes**, so most
+  visitors never meet that wake-up at all.
+
+### Fixed
+
+- **The published site generates dorks.** The deployed build reads the API URL from the
+  `VITE_API_URL` secret and the API answers CORS for the Pages origin, so the fault
+  recorded in [#1](https://github.com/juandresrodca/DorkCraft/issues/1) no longer
+  reproduces. A connectivity failure now reads as one, with a retry hint instead of a
+  local port number.
+- **Exported Markdown links to this repository** rather than to a `yourusername`
+  placeholder.
+- **The README examples show what the tool produces today.** The table showed idealised
+  output; each row is now the live API's answer to that exact input.
 
 ### Planned before `0.1.0`
 

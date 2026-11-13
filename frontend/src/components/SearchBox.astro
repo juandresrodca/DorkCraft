@@ -64,4 +64,9 @@ const { placeholder = 'Find public PDF books about malware analysis…' } = Astr
   <p class="dc-search__hint" id="dc-char-count" aria-live="polite">
     0 / 500 characters
   </p>
+
+  <!-- Shown when a request is slow: the free-tier API sleeps when idle -->
+  <p class="dc-search__wake" id="dc-wake-notice" aria-live="polite" hidden>
+    Waking up the server. The first request after a quiet spell can take up to a minute.
+  </p>
 </section>

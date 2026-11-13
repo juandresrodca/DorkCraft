@@ -1,0 +1,18 @@
+name: Keep demo API warm
+
+# Render's free tier sleeps after 15 idle minutes and takes about 50 seconds to
+# wake, longer than most visitors wait on the live demo before leaving.
+on:
+  schedule:
+    - cron: '*/10 * * * *'
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Ping /health
+        run: curl --fail --silent --show-error --max-time 90 --retry 2 https://dorkcraft-api.onrender.com/health
