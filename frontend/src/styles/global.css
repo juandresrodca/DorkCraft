@@ -329,6 +329,11 @@ main, header, footer {
   text-align: right;
   margin-top: 6px;
 }
+.dc-search__wake {
+  font-size: 13px;
+  color: var(--dc-text-muted);
+  margin-top: 10px;
+}
 
 /* ── Buttons ──────────────────────────────────────────────────────────── */
 .dc-btn {

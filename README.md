@@ -2,7 +2,9 @@
 
 > Generate advanced Google search operators from plain English, built for OSINT, academic research, and public information discovery.
 
-**Live site:** https://juandresrodca.github.io/DorkCraft/
+**[Try it live](https://juandresrodca.github.io/DorkCraft/)**: no install, no account.
+
+![DorkCraft turning "Find PDF books about Linux malware analysis" into filetype:pdf intitle:"pdf books linux malware"](docs/img/dorkcraft-demo.png)
 
 ---
 
@@ -18,28 +20,15 @@ and DorkCraft builds the query for  you.
 
 | You type | DorkCraft generates |
 |---|---|
-| Find PDF books about Linux malware  | `filetype:pdf intitle:"linux malware"` |
-| LinkedIn profiles for SOC analysts in Ireland  | `site:linkedin.com/in intitle:"soc analyst" "Ireland"` |
-| Exposed Apache directory listings  | `intitle:"index of" "apache" -htm -html` |
-| Public GitHub repos about threat intelligence  | `site:github.com intitle:"threat intelligence"` |
+| Find PDF books about Linux malware  | `filetype:pdf intitle:"pdf books linux malware"` |
+| LinkedIn profiles for SOC analysts in Ireland  | `site:linkedin.com/in intitle:"profiles soc analysts" "Ireland"` |
+| Exposed Apache directory listings  | `intitle:"index of" "exposed apache" -htm -html` |
+| Public GitHub repos about threat intelligence  | `site:github.com intitle:"github repos threat"` |
 
 ### What it is not
 
 DorkCraft is a query *builder*, not a dork library and not a scanner. It never
 submits a search on your behalf, and the backend makes no outbound request at all.
-
-[docs/positioning.md](docs/positioning.md) sets that out properly: who the tool is
-for and who it is deliberately not for, how it differs from the Google Hacking
-Database and from form-based dork builders, and the canonical one-line description
-and homepage the repository settings should carry, with the reasoning, so the
-wording is not re-invented every time somebody opens the settings page.
-
-[docs/comparison.md](docs/comparison.md) answers the next question (*why not the
-tool I already use?*) against the Google Hacking Database, the two runners most
-people mean by "a dork tool" (pagodo and sitedorks), the Bash recon scanners and
-Google's own advanced search form. Three of the five comparisons end with *use the
-other one*, which is the only way a comparison page is worth anything; the four
-places DorkCraft is genuinely behind are listed there too.
 
 ---
 
@@ -196,6 +185,21 @@ Add new safety rules by extending `BLOCKED_PATTERNS`.
 [CONTRIBUTING.md](CONTRIBUTING.md) walks through both, including the third step
 people forget: registering the new category in `builder_map`, without which it
 is detected and then silently falls through to `general`.
+
+---
+
+## Further reading
+
+[docs/comparison.md](docs/comparison.md) answers *why not the tool I already use?*
+against the Google Hacking Database, the two runners most people mean by "a dork
+tool" (pagodo and sitedorks), the Bash recon scanners and Google's own advanced
+search form. Three of the five comparisons end with *use the other one*, and the
+four places DorkCraft is genuinely behind are listed there too.
+
+[docs/positioning.md](docs/positioning.md) covers who the tool is for and who it is
+deliberately not for, how it differs from form-based dork builders, and the
+canonical description and homepage the repository settings carry, with the
+reasoning.
 
 ---
 

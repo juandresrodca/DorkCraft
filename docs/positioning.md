@@ -4,11 +4,12 @@ The repository description and the homepage field are the only text GitHub shows
 for DorkCraft in search results, on the profile grid, on a topic page and in the
 sidebar of anyone who stars it. They are read far more often than the README.
 
-DorkCraft's description is currently **`Google Dork helper`** — nineteen
-characters, one of them a trailing space. It says what the tool is filed under,
-not what it does or who should click. The homepage field is empty even though
-[the site is live](https://juandresrodca.github.io/DorkCraft/). This page fixes the wording once so it is not
-re-invented every time someone opens the repository settings.
+Until 2026-11-13 DorkCraft's description was **`Google Dork helper`**: nineteen
+characters, one of them a trailing space. It said what the tool is filed under,
+not what it does or who should click, and the homepage field was empty even though
+[the site is live](https://juandresrodca.github.io/DorkCraft/). Both fields now carry
+the wording below. This page records it so it is not re-invented every time someone
+opens the repository settings.
 
 ---
 
@@ -58,16 +59,11 @@ Set it to:
 https://juandresrodca.github.io/DorkCraft/
 ```
 
-The published frontend cannot currently generate a dork —
-[#1](https://github.com/juandresrodca/DorkCraft/issues/1) is open on exactly that,
-and [`CHANGELOG.md`](../CHANGELOG.md) records it as a known fault. The field is
-still worth setting: GitHub renders it as a link in the sidebar, and a visitor who
-wants the tool working follows [`docs/self-hosting.md`](self-hosting.md) rather
-than the demo. Leaving it empty hides the demo from people who would forgive it;
-setting it while the bug is open and documented in three places is the more honest
-of the two states.
-
-When #1 closes, nothing on this page changes. That is the point of writing it down.
+The published frontend generates dorks; [#1](https://github.com/juandresrodca/DorkCraft/issues/1)
+recorded the period when it could not, and [`CHANGELOG.md`](../CHANGELOG.md) has the
+fix. The API runs on a free instance that sleeps when idle and takes 40 to 50 seconds
+to wake, so `.github/workflows/keep-warm.yml` pings it every ten minutes and the page
+tells a visitor when it is waking up rather than showing only a spinner.
 
 ---
 
@@ -92,9 +88,9 @@ curl -X PATCH https://api.github.com/repos/juandresrodca/DorkCraft \
 
 Either call needs a token with **Administration: write** on the repository.
 Contents and Issues are not enough: a token holding only those gets `403 Resource
-not accessible by personal access token`. That is why this page exists rather than
-the change having already been made — the automation that maintains these docs
-deliberately holds no administration scope.
+not accessible by personal access token`. The automation that maintains these docs
+deliberately holds no administration scope, which is why the settings waited for a
+person. They were applied on 2026-11-13 with the `gh repo edit` call above.
 
 ---
 
