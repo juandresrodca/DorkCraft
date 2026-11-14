@@ -15,6 +15,16 @@ release onwards.
 
 ### Added
 
+- **A search effectiveness panel beside the result.** Ten checks on how the generated
+  dork is built, grouped as targeting, reach and coverage, with a score and the reason
+  for every pass and fail. It catches the generator's own weak spots: phrases stitched
+  together from words that were apart in the request, keywords that repeat an operator,
+  terms from the request that went missing, and `filetype:ppt|pptx`, which Google does
+  not read as a list. The score comes from the dork's text alone; no search is run.
+- **A list of ten common dork patterns** beside the search box. Hovering or focusing a
+  pattern shows what it does, and clicking copies it.
+- **Save to history, and a Markdown download of it.** Each saved search records the date
+  and time, the request, the dork and its score. Entries stay in the browser, up to 50.
 - **The live site says when the API is waking up.** The demo API runs on a free
   instance that sleeps after 15 idle minutes and takes 40 to 50 seconds to wake. After
   three seconds without an answer the page now explains the wait instead of showing only
@@ -22,8 +32,26 @@ release onwards.
 - **`.github/workflows/keep-warm.yml` pings the API every ten minutes**, so most
   visitors never meet that wake-up at all.
 
+### Changed
+
+- **History is saved on request, not automatically.** The page used to store the last
+  ten searches by itself. It now stores a search only when *Save to history* is pressed,
+  which matches the footer's statement that queries are not kept. Searches the old
+  version stored are still listed, with a score worked out for each.
+- **The page background is plain black easing to grey.** The tiled grid and the purple
+  glow behind it are gone.
+- **The green badge on a result reads "Valid syntax", not "Optimized".** It only ever
+  meant the backend raised no syntax warning, and it now sits next to a panel that may
+  rate the same dork as weak.
+- **The client script moved out of `index.astro` into `src/scripts/app.ts`**, with the
+  scoring, history and pattern list as separate modules under `src/lib/`.
+
 ### Fixed
 
+- **Copy buttons keep their icon.** The "Copied" confirmation used to replace the
+  button's contents and restore only the text.
+- **Motion respects `prefers-reduced-motion`**, and hover movement no longer sticks on
+  touch screens.
 - **The published site generates dorks.** The deployed build reads the API URL from the
   `VITE_API_URL` secret and the API answers CORS for the Pages origin, so the fault
   recorded in [#1](https://github.com/juandresrodca/DorkCraft/issues/1) no longer

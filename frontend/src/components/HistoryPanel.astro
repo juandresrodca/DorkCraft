@@ -1,0 +1,40 @@
+---
+/**
+ * HistoryPanel component
+ * ----------------------
+ * Searches the user chose to keep with "Save to history". Each entry holds the
+ * date and time, the request, the dork and its score. The list can be
+ * downloaded as Markdown. Stored in this browser only.
+ */
+---
+
+<section class="dc-panel dc-hist" id="dc-history-section" aria-labelledby="dc-hist-title">
+  <header class="dc-panel__head">
+    <h2 class="dc-panel__title" id="dc-hist-title">
+      <span class="dc-panel__hash" aria-hidden="true">#</span> Search history
+    </h2>
+    <span class="dc-panel__count" id="dc-hist-count">0 saved</span>
+  </header>
+
+  <p class="dc-hist__empty" id="dc-hist-empty">
+    Nothing saved yet. Generate a dork, then press <strong>Save to history</strong> to keep it here.
+  </p>
+
+  <ul class="dc-hist__list" id="dc-history-list" role="list" aria-label="Saved searches"></ul>
+
+  <div class="dc-hist__actions" id="dc-hist-actions" hidden>
+    <button id="dc-hist-download" class="dc-btn dc-btn--secondary dc-btn--sm" type="button">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+           stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+        <polyline points="7 10 12 15 17 10"/>
+        <line x1="12" y1="15" x2="12" y2="3"/>
+      </svg>
+      Download .md
+    </button>
+    <button id="dc-clear-history" class="dc-btn dc-btn--ghost dc-btn--sm" type="button">
+      Clear history
+    </button>
+    <span class="dc-hist__note">Saved in this browser only.</span>
+  </div>
+</section>

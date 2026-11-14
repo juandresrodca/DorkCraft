@@ -14,6 +14,8 @@ export interface DorkResponse {
   explanation: string[];
   variations: string[];
   category?: string;
+  warnings?: string[];
+  is_valid?: boolean;
 }
 
 export interface ErrorResponse {
