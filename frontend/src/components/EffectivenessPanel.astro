@@ -1,0 +1,53 @@
+---
+/**
+ * EffectivenessPanel component
+ * ----------------------------
+ * Shows how well the generated dork is built: a score, a pass count and the
+ * individual checks grouped by what they measure. Hidden until a result
+ * arrives; filled in by the client script from lib/effectiveness.ts.
+ */
+---
+
+<aside
+  id="dc-eff"
+  class="dc-panel dc-eff dc-card--hidden"
+  aria-labelledby="dc-eff-title"
+>
+  <header class="dc-panel__head">
+    <h2 class="dc-panel__title" id="dc-eff-title">
+      <span class="dc-panel__hash" aria-hidden="true">#</span> Search effectiveness
+    </h2>
+    <span class="dc-panel__count" id="dc-eff-count"></span>
+  </header>
+
+  <div class="dc-eff__summary" role="status">
+    <div class="dc-ring" id="dc-eff-ring">
+      <svg viewBox="0 0 100 100" aria-hidden="true">
+        <circle class="dc-ring__track" cx="50" cy="50" r="42" />
+        <circle class="dc-ring__value" id="dc-eff-ring-value" cx="50" cy="50" r="42" />
+      </svg>
+      <span class="dc-ring__num" id="dc-eff-score"></span>
+    </div>
+
+    <div class="dc-eff__status">
+      <p class="dc-eff__headline" id="dc-eff-headline"></p>
+      <p class="dc-eff__sub" id="dc-eff-sub"></p>
+
+      <div class="dc-bar" aria-hidden="true">
+        <div class="dc-bar__fill" id="dc-eff-bar"></div>
+      </div>
+      <div class="dc-bar__labels" aria-hidden="true">
+        <span>0</span>
+        <span id="dc-eff-bar-label"></span>
+        <span id="dc-eff-bar-max"></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="dc-eff__groups" id="dc-eff-groups"></div>
+
+  <p class="dc-eff__note">
+    Estimated from how the dork is built and what you asked for.
+    DorkCraft never runs the search, so this is not a count of Google results.
+  </p>
+</aside>

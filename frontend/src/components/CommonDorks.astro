@@ -1,0 +1,47 @@
+---
+/**
+ * CommonDorks component
+ * ---------------------
+ * Side list of widely used dork patterns. Hovering or focusing an entry shows
+ * its explanation in the note below the list; clicking copies the pattern.
+ * The explanations are also wired up as descriptions for screen readers.
+ */
+import { COMMON_DORKS } from '../lib/commonDorks';
+---
+
+<aside class="dc-panel dc-common" aria-labelledby="dc-common-title">
+  <header class="dc-panel__head">
+    <h2 class="dc-panel__title" id="dc-common-title">
+      <span class="dc-panel__hash" aria-hidden="true">#</span> Common dorks
+    </h2>
+    <span class="dc-panel__count">{COMMON_DORKS.length} patterns</span>
+  </header>
+
+  <ul class="dc-common__list" role="list">
+    {COMMON_DORKS.map((item, i) => (
+      <li>
+        <button
+          class="dc-common__item"
+          type="button"
+          data-dork={item.dork}
+          data-name={item.name}
+          data-explanation={item.explanation}
+          aria-describedby={`dc-common-desc-${i}`}
+        >
+          <code>{item.dork}</code>
+        </button>
+        <span class="dc-sr-only" id={`dc-common-desc-${i}`}>
+          {item.name}. {item.explanation} Press to copy.
+        </span>
+      </li>
+    ))}
+  </ul>
+
+  <div class="dc-common__note" id="dc-common-note" aria-hidden="true">
+    <p class="dc-common__note-name" id="dc-common-note-name">What it does</p>
+    <p class="dc-common__note-text" id="dc-common-note-text"
+       data-default="Hover a pattern to see what it does. Click to copy it.">
+      Hover a pattern to see what it does. Click to copy it.
+    </p>
+  </div>
+</aside>

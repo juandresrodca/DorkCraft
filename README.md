@@ -4,7 +4,7 @@
 
 **[Try it live](https://juandresrodca.github.io/DorkCraft/)**: no install, no account.
 
-![DorkCraft turning "Find PDF books about Linux malware analysis" into filetype:pdf intitle:"pdf books linux malware"](docs/img/dorkcraft-demo.png)
+![DorkCraft turning "Find LinkedIn profiles for SOC analysts in Ireland" into a dork, with the common-dorks list on the left and the effectiveness panel on the right scoring it 69%, Fair](docs/img/dorkcraft-demo.png)
 
 ---
 
@@ -24,6 +24,19 @@ and DorkCraft builds the query for  you.
 | LinkedIn profiles for SOC analysts in Ireland  | `site:linkedin.com/in intitle:"profiles soc analysts" "Ireland"` |
 | Exposed Apache directory listings  | `intitle:"index of" "exposed apache" -htm -html` |
 | Public GitHub repos about threat intelligence  | `site:github.com intitle:"github repos threat"` |
+
+### What the page gives you
+
+- **The dork**, with an explanation of each operator and a few variations.
+- **A search effectiveness panel.** Ten checks on how the dork is built: whether it is
+  scoped to a site or file type, whether its quoted phrases are likely to match, whether
+  it kept the terms you asked for. The result is a score and a list of what to fix.
+  It is an estimate from the dork's text. DorkCraft never runs the search, so the score
+  is not a count of Google results.
+- **Common dorks.** Ten widely used patterns beside the search box. Hover one to read
+  what it does, click to copy it.
+- **Search history.** Press *Save to history* to keep a search with its date, time and
+  score, then download the list as a Markdown file. It is stored in your browser only.
 
 ### What it is not
 
@@ -61,11 +74,19 @@ DorkCraft/
 │   │   │   ├── Header.astro
 │   │   │   ├── Footer.astro
 │   │   │   ├── SearchBox.astro
-│   │   │   └── ResultCard.astro
+│   │   │   ├── ResultCard.astro
+│   │   │   ├── EffectivenessPanel.astro
+│   │   │   ├── HistoryPanel.astro
+│   │   │   └── CommonDorks.astro
 │   │   ├── lib/
-│   │   │   └── api.ts           # Typed API client
+│   │   │   ├── api.ts           # API URL and response types
+│   │   │   ├── effectiveness.ts # The ten checks and the score
+│   │   │   ├── history.ts       # Saved searches + Markdown export
+│   │   │   └── commonDorks.ts   # The pattern list
 │   │   ├── pages/
-│   │   │   └── index.astro      # Main page + all client logic
+│   │   │   └── index.astro      # Page layout
+│   │   ├── scripts/
+│   │   │   └── app.ts           # All client logic
 │   │   └── styles/
 │   │       └── global.css       # Design system
 │   └── astro.config.mjs
