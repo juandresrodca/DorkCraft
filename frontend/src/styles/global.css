@@ -1,35 +1,44 @@
 /*
  * DorkCraft — Global Design System
  * =================================
- * Inspired by: Linear, Vercel, Raycast
- * Mode: Dark by default
- * Typography: Inter (body) + JetBrains Mono (queries)
+ * Minimal and dark: neutral greys, one solid violet accent, no glows.
+ * Google's four brand colours appear once, on the word "Google" in the title.
+ * Typography: the platform UI font (SF Pro on Apple devices) + JetBrains Mono (queries)
  */
 
 /* ── Google Fonts ─────────────────────────────────────────────────────── */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?JetBrains+Mono:wght@400;500&display=swap');
 
 /* ── Design Tokens ────────────────────────────────────────────────────── */
 :root {
   /* Colours */
   --dc-bg:          #000000;
-  --dc-surface:     #111118;
-  --dc-surface-2:   #18181f;
-  --dc-border:      rgba(255,255,255,0.07);
-  --dc-border-mid:  rgba(255,255,255,0.12);
+  --dc-surface:     #0b0b0c;
+  --dc-surface-2:   #141415;
+  --dc-border:      rgba(255,255,255,0.08);
+  --dc-border-mid:  rgba(255,255,255,0.14);
 
-  /* Indigo–violet accent spectrum */
-  --dc-accent:      #6366f1;
-  --dc-accent-mid:  #7c3aed;
-  --dc-accent-glow: rgba(99, 102, 241, 0.25);
-  --dc-accent-hi:   #a78bfa;
+  /* One violet. -mid and -hi stay as aliases so existing rules keep working;
+     --dc-accent-tint is the same hue at low alpha, for hover fills. 4.9:1 on black. */
+  --dc-accent:      #8b5cf6;
+  --dc-accent-mid:  var(--dc-accent);
+  --dc-accent-hi:   var(--dc-accent);
+  --dc-accent-tint: rgba(139, 92, 246, 0.10);
+  --dc-accent-glow: var(--dc-accent-tint);
+  /* Text on a violet fill: white is 4.2:1 and fails AA, black is 4.9:1 */
+  --dc-on-accent:   #000000;
 
-  /* Text */
-  --dc-text:        #e2e2ee;
-  --dc-text-muted:  #6b6b80;
-  /* Secondary text that still meets WCAG AA on the surface colours */
-  --dc-text-soft:   #9a9ab0;
-  --dc-text-dim:    #3d3d50;
+  /* Google brand colours, used only on the word "Google" */
+  --dc-g-blue:      #4285f4;
+  --dc-g-red:       #ea4335;
+  --dc-g-yellow:    #fbbc05;
+  --dc-g-green:     #34a853;
+
+  /* Neutral greys; every one used for copy meets WCAG AA on the surfaces */
+  --dc-text:        #ededed;
+  --dc-text-muted:  #8a8a8e;
+  --dc-text-soft:   #a1a1a6;
+  --dc-text-dim:    #5a5a5e;
 
   /* Semantic */
   --dc-success:     #10b981;
@@ -37,17 +46,17 @@
   --dc-warning:     #f59e0b;
 
   /* Spacing / Radius */
-  --dc-radius-sm:   6px;
-  --dc-radius-md:   12px;
-  --dc-radius-lg:   18px;
-  --dc-radius-xl:   24px;
+  --dc-radius-sm:   4px;
+  --dc-radius-md:   6px;
+  --dc-radius-lg:   8px;
+  --dc-radius-xl:   12px;
 
   /* Transitions */
   --dc-transition:  150ms cubic-bezier(0.4, 0, 0.2, 1);
   --dc-ease-out:    cubic-bezier(0.23, 1, 0.32, 1);
 
   /* Typography */
-  --dc-font-sans:   'Inter', system-ui, -apple-system, sans-serif;
+  --dc-font-sans:   -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI Variable Text', 'Segoe UI', system-ui, sans-serif;
   --dc-font-mono:   'JetBrains Mono', 'Fira Code', Consolas, monospace;
 }
 
@@ -120,22 +129,13 @@ main, header, footer {
   flex-shrink: 0;
 }
 
-.dc-logo__icon {
-  filter: drop-shadow(0 0 8px rgba(99,102,241,0.6));
-  transition: filter var(--dc-transition);
-}
-.dc-logo:hover .dc-logo__icon {
-  filter: drop-shadow(0 0 14px rgba(99,102,241,0.9));
-}
+.dc-logo__icon { display: block; }
 
 .dc-logo__text {
-  font-size: 17px;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  background: linear-gradient(135deg, #c4b5fd 0%, #818cf8 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--dc-text);
 }
 
 .dc-header__subtitle {
@@ -164,8 +164,7 @@ main, header, footer {
 }
 .dc-header__gh-link:hover {
   color: var(--dc-text);
-  border-color: var(--dc-accent);
-  background: var(--dc-accent-glow);
+  border-color: var(--dc-text-dim);
 }
 
 /* ── Layout ───────────────────────────────────────────────────────────── */
@@ -191,38 +190,33 @@ main, header, footer {
   text-align: center;
 }
 .dc-hero__eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
+  font-family: var(--dc-font-mono);
   font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--dc-accent-hi);
-  background: rgba(99,102,241,0.12);
-  border: 1px solid rgba(99,102,241,0.25);
-  padding: 4px 12px;
-  border-radius: 999px;
-  margin-bottom: 20px;
+  color: var(--dc-text-muted);
+  margin-bottom: 22px;
 }
+.dc-hero__prompt { color: var(--dc-accent); }
 .dc-hero__title {
-  font-size: clamp(28px, 5vw, 44px);
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  line-height: 1.15;
-  margin-bottom: 14px;
+  font-size: clamp(32px, 6vw, 56px);
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  line-height: 1.08;
+  margin-bottom: 16px;
   color: var(--dc-text);
 }
 .dc-hero__title em {
   font-style: normal;
-  background: linear-gradient(90deg, #818cf8, #c084fc, #f472b6);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--dc-accent);
 }
+.dc-hero__nowrap { white-space: nowrap; }
+.dc-g-blue   { color: var(--dc-g-blue); }
+.dc-g-red    { color: var(--dc-g-red); }
+.dc-g-yellow { color: var(--dc-g-yellow); }
+.dc-g-green  { color: var(--dc-g-green); }
 .dc-hero__sub {
-  font-size: 15px;
-  color: var(--dc-text-muted);
+  font-size: 17px;
+  line-height: 1.5;
+  color: var(--dc-text-soft);
   max-width: 480px;
   margin: 0 auto;
 }
@@ -237,7 +231,7 @@ main, header, footer {
 }
 .dc-search:focus-within {
   border-color: var(--dc-accent);
-  box-shadow: 0 0 0 3px var(--dc-accent-glow), 0 4px 24px rgba(0,0,0,0.4);
+  box-shadow: 0 0 0 1px var(--dc-accent);
 }
 
 .dc-search__inner {
@@ -269,7 +263,7 @@ main, header, footer {
   caret-color: var(--dc-accent);
 }
 .dc-search__textarea::placeholder {
-  color: var(--dc-text-dim);
+  color: var(--dc-text-muted);
 }
 
 /* Chips */
@@ -289,8 +283,8 @@ main, header, footer {
   color: var(--dc-text-muted);
   background: var(--dc-surface-2);
   border: 1px solid var(--dc-border);
-  border-radius: 999px;
-  padding: 4px 12px;
+  border-radius: var(--dc-radius-sm);
+  padding: 4px 10px;
   cursor: pointer;
   transition: color var(--dc-transition), border-color var(--dc-transition),
               background var(--dc-transition), transform var(--dc-transition);
@@ -298,7 +292,6 @@ main, header, footer {
 .dc-chip:hover {
   color: var(--dc-text);
   border-color: var(--dc-accent);
-  background: var(--dc-accent-glow);
 }
 
 /* Actions row */
@@ -345,12 +338,12 @@ main, header, footer {
 }
 
 .dc-btn--primary {
-  background: linear-gradient(135deg, var(--dc-accent), var(--dc-accent-mid));
-  color: #fff;
-  box-shadow: 0 2px 12px rgba(99,102,241,0.35);
+  background-color: var(--dc-accent);
+  color: var(--dc-on-accent);
+  font-weight: 600;
 }
 .dc-btn--primary:hover:not(:disabled) {
-  box-shadow: 0 4px 20px rgba(99,102,241,0.55);
+  opacity: 0.88;
 }
 .dc-btn--primary:disabled { cursor: not-allowed; }
 
@@ -361,8 +354,6 @@ main, header, footer {
 }
 .dc-btn--secondary:hover {
   border-color: var(--dc-accent);
-  background: var(--dc-accent-glow);
-  color: var(--dc-accent-hi);
 }
 
 .dc-btn--ghost {
@@ -390,8 +381,8 @@ main, header, footer {
   display: inline-block;
   width: 13px;
   height: 13px;
-  border: 2px solid rgba(255,255,255,0.3);
-  border-top-color: #fff;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
   border-radius: 50%;
   animation: dc-spin 0.6s linear infinite;
 }
@@ -427,11 +418,10 @@ main, header, footer {
   font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--dc-accent-hi);
-  background: rgba(99,102,241,0.15);
-  border: 1px solid rgba(99,102,241,0.3);
-  border-radius: 999px;
-  padding: 2px 10px;
+  color: var(--dc-accent);
+  border: 1px solid var(--dc-accent);
+  border-radius: var(--dc-radius-sm);
+  padding: 1px 8px;
 }
 .dc-card__label {
   font-size: 11px;
@@ -454,7 +444,7 @@ main, header, footer {
 .dc-card__query {
   font-family: var(--dc-font-mono);
   font-size: 14px;
-  color: #a78bfa;
+  color: var(--dc-accent);
   white-space: pre-wrap;
   overflow-wrap: anywhere;
   line-height: 1.6;
@@ -524,7 +514,7 @@ main, header, footer {
 }
 .dc-card__variations li:hover {
   border-color: var(--dc-accent);
-  background: rgba(99,102,241,0.08);
+  background: var(--dc-accent-tint);
 }
 .dc-card__variations li code {
   font-family: var(--dc-font-mono);
@@ -681,7 +671,6 @@ main, header, footer {
   align-items: center;
   gap: 8px;
 }
-.dc-footer__shield { font-size: 20px; }
 .dc-footer__disclaimer {
   font-size: 12.5px;
   color: var(--dc-text-muted);
@@ -749,8 +738,8 @@ main, header, footer {
 .dc-common__item:hover,
 .dc-common__item:focus-visible {
   color: var(--dc-accent-hi);
-  border-color: rgba(99,102,241,0.35);
-  background-color: rgba(99,102,241,0.08);
+  border-color: var(--dc-accent);
+  background-color: var(--dc-accent-tint);
 }
 .dc-common__note {
   margin-top: 14px;
@@ -839,7 +828,7 @@ main, header, footer {
 .dc-bar__fill {
   height: 100%;
   border-radius: 999px;
-  background: linear-gradient(90deg, var(--dc-accent), var(--dc-accent-hi));
+  background-color: var(--dc-accent);
   transform: scaleX(0);
   transform-origin: left center;
   transition: transform 0.55s var(--dc-ease-out);
@@ -995,8 +984,8 @@ main, header, footer {
               transform 140ms var(--dc-ease-out);
 }
 .dc-hist__item:hover {
-  border-color: rgba(99,102,241,0.45);
-  background-color: rgba(99,102,241,0.07);
+  border-color: var(--dc-accent);
+  background-color: var(--dc-accent-tint);
 }
 .dc-hist__time {
   font-family: var(--dc-font-mono);
@@ -1044,7 +1033,7 @@ main, header, footer {
   font-size: 12px;
   font-weight: 500;
   padding: 2px 8px;
-  border-radius: 999px;
+  border-radius: var(--dc-radius-sm);
   border: 1px solid currentColor;
 }
 .dc-score--strong { color: var(--dc-success); }
