@@ -4,9 +4,14 @@
  * ---------------------
  * Side list of widely used dork patterns. Hovering or focusing an entry shows
  * its explanation in the note below the list; clicking copies the pattern.
+ * Double-clicking (or Shift+Enter) pins it as a shortcut button under the
+ * list; a shortcut copies on click and is removed by double-click or Delete.
  * The explanations are also wired up as descriptions for screen readers.
  */
 import { COMMON_DORKS } from '../lib/commonDorks';
+
+const DEFAULT_NOTE =
+  'Hover a pattern to see what it does. Click to copy it, double-click to pin it as a shortcut.';
 ---
 
 <aside class="dc-panel dc-common" aria-labelledby="dc-common-title">
@@ -31,17 +36,26 @@ import { COMMON_DORKS } from '../lib/commonDorks';
           <code>{item.dork}</code>
         </button>
         <span class="dc-sr-only" id={`dc-common-desc-${i}`}>
-          {item.name}. {item.explanation} Press to copy.
+          {item.name}. {item.explanation} Press to copy. Shift+Enter or double-click to pin it as a shortcut.
         </span>
       </li>
     ))}
   </ul>
 
+  <section class="dc-pins" aria-labelledby="dc-pins-title">
+    <div class="dc-pins__head">
+      <h3 class="dc-pins__title" id="dc-pins-title">Shortcuts</h3>
+      <span class="dc-panel__count" id="dc-pins-count">0</span>
+    </div>
+    <p class="dc-pins__empty" id="dc-pins-empty">Double-click a pattern to pin it here.</p>
+    <ul class="dc-pins__list" id="dc-pins-list" role="list"></ul>
+    <span class="dc-sr-only" id="dc-pin-help">Shortcut. Press to copy. Press Delete or double-click to remove it.</span>
+  </section>
+
   <div class="dc-common__note" id="dc-common-note" aria-hidden="true">
     <p class="dc-common__note-name" id="dc-common-note-name">What it does</p>
-    <p class="dc-common__note-text" id="dc-common-note-text"
-       data-default="Hover a pattern to see what it does. Click to copy it.">
-      Hover a pattern to see what it does. Click to copy it.
+    <p class="dc-common__note-text" id="dc-common-note-text" data-default={DEFAULT_NOTE}>
+      {DEFAULT_NOTE}
     </p>
   </div>
 </aside>

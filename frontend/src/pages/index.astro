@@ -40,7 +40,7 @@ import '../styles/global.css';
 
     <!-- Favicon (inline SVG data-uri) -->
     <link rel="icon" type="image/svg+xml"
-      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%236366f1'/%3E%3Ccircle cx='14' cy='15' r='5' fill='none' stroke='white' stroke-width='2'/%3E%3Cline x1='18' y1='19' x2='22' y2='23' stroke='white' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E" />
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%238b5cf6'/%3E%3Ccircle cx='14' cy='15' r='5' fill='none' stroke='black' stroke-width='2'/%3E%3Cline x1='18' y1='19' x2='22' y2='23' stroke='black' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E" />
   </head>
 
   <body>
@@ -50,15 +50,9 @@ import '../styles/global.css';
 
       <!-- Hero text -->
       <section class="dc-hero" aria-labelledby="hero-heading">
-        <div class="dc-hero__eyebrow">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-               stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
-            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
-          </svg>
-          OSINT · Research · Discovery
-        </div>
+        <p class="dc-hero__eyebrow"><span class="dc-hero__prompt" aria-hidden="true">$</span> osint · research · discovery</p>
         <h1 id="hero-heading" class="dc-hero__title">
-          Plain English → <em>Google Dorks</em>
+          Plain English → <span class="dc-hero__nowrap"><span class="dc-hero__google"><span class="dc-g-blue">G</span><span class="dc-g-red">o</span><span class="dc-g-yellow">o</span><span class="dc-g-blue">g</span><span class="dc-g-green">l</span><span class="dc-g-red">e</span></span> <em>Dorks</em></span>
         </h1>
         <p class="dc-hero__sub">
           Describe what you want to find. DorkCraft builds the precise

@@ -23,6 +23,10 @@ release onwards.
   not read as a list. The score comes from the dork's text alone; no search is run.
 - **A list of ten common dork patterns** beside the search box. Hovering or focusing a
   pattern shows what it does, and clicking copies it.
+- **Shortcuts for the patterns you use.** Double-clicking a common pattern, or pressing
+  Shift+Enter on it, pins it as a small button under the list. A shortcut copies on one
+  click, explains itself on hover, and goes away on a double-click or Delete. Shortcuts
+  are kept in the browser.
 - **Save to history, and a Markdown download of it.** Each saved search records the date
   and time, the request, the dork and its score. Entries stay in the browser, up to 50.
 - **The live site says when the API is waking up.** The demo API runs on a free
@@ -34,6 +38,11 @@ release onwards.
 
 ### Changed
 
+- **A plainer look.** The indigo-to-pink gradients, glows and pill shapes are gone:
+  neutral greys, one solid violet, tighter corners and the system UI font replace them.
+  "Google" in the title is in Google's own colours, and the example chips lost their
+  emoji. The primary button now has black text on violet, because white on that violet
+  falls short of WCAG AA contrast.
 - **History is saved on request, not automatically.** The page used to store the last
   ten searches by itself. It now stores a search only when *Save to history* is pressed,
   which matches the footer's statement that queries are not kept. Searches the old

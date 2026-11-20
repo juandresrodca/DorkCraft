@@ -15,6 +15,7 @@ import {
   saveEntry,
   type HistoryEntry,
 } from '../lib/history';
+import { loadShortcuts, saveShortcuts } from '../lib/shortcuts';
 
 const $ = <T extends HTMLElement = HTMLElement>(id: string): T =>
   document.getElementById(id) as T;
@@ -62,7 +63,11 @@ const histActions = $('dc-hist-actions');
 const histDownload = $('dc-hist-download');
 const histClear = $('dc-clear-history');
 
+const commonPanel = document.querySelector<HTMLElement>('.dc-common');
 const commonList = document.querySelector<HTMLElement>('.dc-common__list');
+const pinsList = $('dc-pins-list');
+const pinsEmpty = $('dc-pins-empty');
+const pinsCount = $('dc-pins-count');
 const commonNoteName = $('dc-common-note-name');
 const commonNoteText = $('dc-common-note-text');
 
@@ -435,36 +440,124 @@ histClear.addEventListener('click', () => {
 
 renderHistory();
 
-// ── Common dorks ──────────────────────────────────────────────────────
-if (commonList) {
+// ── Common dorks and shortcuts ────────────────────────────────────────
+// One click copies, hover or focus explains, double-click (or Shift+Enter)
+// pins a pattern as a shortcut; double-click (or Delete) on a shortcut removes it.
+// The two clicks of a double-click also copy, which is harmless.
+if (commonPanel && commonList) {
+  const panel = commonPanel;
   const defaultText = commonNoteText.dataset.default ?? '';
+  const patterns = Array.from(commonList.querySelectorAll<HTMLElement>('.dc-common__item'));
+  const byDork = new Map(patterns.map((p) => [p.dataset.dork ?? '', p]));
+  let pins = loadShortcuts(localStorage, [...byDork.keys()]);
+  let noteTimer: ReturnType<typeof setTimeout> | undefined;
+
   const describe = (item: HTMLElement | null): void => {
     commonNoteName.textContent = item?.dataset.name ?? 'What it does';
     commonNoteText.textContent = item?.dataset.explanation ?? defaultText;
   };
-  const itemFrom = (target: EventTarget | null): HTMLElement | null =>
-    target instanceof Element ? target.closest<HTMLElement>('.dc-common__item') : null;
-
-  commonList.addEventListener('mouseover', (e) => {
-    const item = itemFrom(e.target);
-    if (item) describe(item);
-  });
-  commonList.addEventListener('focusin', (e) => describe(itemFrom(e.target)));
-  commonList.addEventListener('mouseleave', () => describe(itemFrom(document.activeElement)));
-  commonList.addEventListener('focusout', (e) => {
-    if (!commonList.contains(e.relatedTarget as Node | null)) describe(null);
-  });
-  commonList.addEventListener('click', (e) => {
-    const item = itemFrom(e.target);
-    if (!item) return;
-    copyText(item.dataset.dork ?? '');
-    commonNoteName.textContent = 'Copied to clipboard';
-    setTimeout(() => {
-      if (commonNoteName.textContent === 'Copied to clipboard') {
+  /** Shows a short status in the note title, then puts the pattern name back. */
+  const say = (status: string, item: HTMLElement): void => {
+    clearTimeout(noteTimer);
+    commonNoteName.textContent = status;
+    noteTimer = setTimeout(() => {
+      if (commonNoteName.textContent === status) {
         commonNoteName.textContent = item.dataset.name ?? 'What it does';
       }
     }, 1600);
+  };
+  const itemFrom = (target: EventTarget | null): HTMLElement | null =>
+    target instanceof Element ? target.closest<HTMLElement>('.dc-common__item, .dc-pin') : null;
+  const pinButtons = (): HTMLElement[] =>
+    Array.from(pinsList.querySelectorAll<HTMLElement>('.dc-pin'));
+
+  const renderPins = (added?: string): void => {
+    pinsList.replaceChildren(
+      ...pins.map((dork) => {
+        const source = byDork.get(dork);
+        const btn = el('button', dork === added ? 'dc-pin dc-pin--new' : 'dc-pin');
+        btn.type = 'button';
+        btn.dataset.dork = dork;
+        btn.dataset.name = source?.dataset.name ?? '';
+        btn.dataset.explanation = source?.dataset.explanation ?? '';
+        btn.setAttribute(
+          'aria-describedby',
+          ((source?.getAttribute('aria-describedby') ?? '') + ' dc-pin-help').trim(),
+        );
+        btn.append(el('code', '', dork));
+        const li = el('li');
+        li.append(btn);
+        return li;
+      }),
+    );
+    pinsEmpty.hidden = pins.length > 0;
+    pinsCount.textContent = String(pins.length);
+    for (const p of patterns) {
+      p.classList.toggle('dc-common__item--pinned', pins.includes(p.dataset.dork ?? ''));
+    }
+  };
+
+  const addPin = (item: HTMLElement): void => {
+    const dork = item.dataset.dork ?? '';
+    if (pins.includes(dork)) {
+      say('Already in shortcuts', item);
+      return;
+    }
+    pins = [...pins, dork];
+    saveShortcuts(localStorage, pins);
+    renderPins(dork);
+    say('Pinned as a shortcut', item);
+  };
+
+  const removePin = (pin: HTMLElement, fromKeyboard: boolean): void => {
+    const dork = pin.dataset.dork ?? '';
+    const index = pins.indexOf(dork);
+    pins = pins.filter((d) => d !== dork);
+    saveShortcuts(localStorage, pins);
+    renderPins();
+    const source = byDork.get(dork);
+    if (source) say('Shortcut removed', source);
+    if (fromKeyboard) {
+      // Keep keyboard focus nearby rather than dropping it on <body>.
+      const remaining = pinButtons();
+      (remaining[Math.min(index, remaining.length - 1)] ?? source)?.focus();
+    }
+  };
+
+  panel.addEventListener('mouseover', (e) => {
+    const item = itemFrom(e.target);
+    if (item) describe(item);
   });
+  panel.addEventListener('focusin', (e) => describe(itemFrom(e.target)));
+  panel.addEventListener('mouseleave', () => describe(itemFrom(document.activeElement)));
+  panel.addEventListener('focusout', (e) => {
+    if (!panel.contains(e.relatedTarget as Node | null)) describe(null);
+  });
+  panel.addEventListener('click', (e) => {
+    const item = itemFrom(e.target);
+    if (!item) return;
+    copyText(item.dataset.dork ?? '');
+    say('Copied to clipboard', item);
+  });
+  panel.addEventListener('dblclick', (e) => {
+    const item = itemFrom(e.target);
+    if (!item) return;
+    if (item.classList.contains('dc-pin')) removePin(item, false);
+    else addPin(item);
+  });
+  panel.addEventListener('keydown', (e) => {
+    const item = itemFrom(e.target);
+    if (!item) return;
+    if (e.key === 'Enter' && e.shiftKey && item.classList.contains('dc-common__item')) {
+      e.preventDefault(); // stops the Enter from also clicking, so it pins without copying
+      addPin(item);
+    } else if ((e.key === 'Delete' || e.key === 'Backspace') && item.classList.contains('dc-pin')) {
+      e.preventDefault();
+      removePin(item, true);
+    }
+  });
+
+  renderPins();
 }
 
 // ── Cheat sheet toggle ────────────────────────────────────────────────
