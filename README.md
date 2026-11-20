@@ -4,7 +4,7 @@
 
 **[Try it live](https://juandresrodca.github.io/DorkCraft/)**: no install, no account.
 
-![DorkCraft turning "Find LinkedIn profiles for SOC analysts in Ireland" into a dork, with the common-dorks list on the left and the effectiveness panel on the right scoring it 69%, Fair](docs/img/dorkcraft-demo.png)
+![DorkCraft turning a request for a PDF titled cv that mentions BROU into a dork, with the common-dorks list and two pinned shortcuts on the left and the effectiveness panel on the right scoring it 46%, Weak](docs/img/dorkcraft-demo.png)
 
 ---
 
