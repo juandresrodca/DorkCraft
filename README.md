@@ -34,7 +34,8 @@ and DorkCraft builds the query for  you.
   It is an estimate from the dork's text. DorkCraft never runs the search, so the score
   is not a count of Google results.
 - **Common dorks.** Ten widely used patterns beside the search box. Hover one to read
-  what it does, click to copy it.
+  what it does, click to copy it, double-click to pin it as a shortcut under the list.
+  Double-click a shortcut to remove it.
 - **Search history.** Press *Save to history* to keep a search with its date, time and
   score, then download the list as a Markdown file. It is stored in your browser only.
 
