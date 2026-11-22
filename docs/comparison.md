@@ -128,10 +128,8 @@ Four things, and the list is short deliberately.
    four confirmations, and a requirement that you ran the operator yourself on a
    stated date — but a workflow is not yet a library.
 3. **The classifier is keyword-scored, not semantic.** It matches trigger words, so
-   a sentence that uses none of them falls through to `general`. Issue
-   [#3](https://github.com/juandresrodca/DorkCraft/issues/3) is open on a real
-   instance of this: `_detect_filetype` matches substrings, so *docker* selects
-   `filetype:doc`.
+   a sentence that uses none of them falls through to `general`, and a word with
+   two meanings is read one way only: *project* always votes for GitHub.
 4. **The published demo is broken.** [#1](https://github.com/juandresrodca/DorkCraft/issues/1)
    is open on it. Running both halves locally is unaffected, and
    [`self-hosting.md`](self-hosting.md) is the route a serious reader takes anyway —
