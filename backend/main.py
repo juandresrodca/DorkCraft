@@ -26,7 +26,7 @@ from services.dork_generator import DorkGenerator
 app = FastAPI(
     title="DorkCraft API",
     description="Generate safe and effective Google dork queries from plain English.",
-    version="1.0.0",
+    version="0.1.0",
     docs_url="/docs",
     redoc_url="/redoc",
 )
