@@ -5,13 +5,28 @@ All notable changes to DorkCraft are recorded here. The format follows
 follow [Semantic Versioning](https://semver.org/spec/v2.0.0.html) from its first tagged
 release onwards.
 
-> **There are no releases yet.** The repository carries no git tags, so everything below
-> is reconstructed from the commit history and grouped by the date the work landed on
-> `main`. The `version="1.0.0"` string in `backend/main.py` is the FastAPI app title
-> metadata that appears in `/docs` — it is not a release, and `frontend/package.json`
-> still says `0.0.1`. Reconciling the two is part of cutting `0.1.0`.
+> **Tagging starts at 0.1.0.** Everything below that heading was reconstructed from the
+> commit history and is grouped by the date the work landed on `main`; all of it ships
+> in 0.1.0. The API metadata in `backend/main.py` used to say `1.0.0` and
+> `frontend/package.json` said `0.0.1`. Both now say `0.1.0`.
 
 ## [Unreleased]
+
+### Planned
+
+- A test suite. There is none yet, which is why
+  [`CONTRIBUTING.md`](CONTRIBUTING.md) asks a pull request to show the before-and-after
+  output of the queries it changes.
+- Rate limiting on the API. The backend ships without it; the nginx configuration in
+  [`docs/self-hosting.md`](docs/self-hosting.md) is the current answer.
+- One place to declare the version. It is written twice today, in `backend/main.py`
+  and `frontend/package.json`, and a release has to change both.
+
+## [0.1.0] - 2026-11-22
+
+The first tagged release. It turns the demo into something usable: the generator
+builds dorks from the wording of the request, a panel scores each one, and the live
+site generates dorks again.
 
 ### Added
 
@@ -86,15 +101,6 @@ release onwards.
   placeholder.
 - **The README examples show what the tool produces today.** The table showed idealised
   output; each row is now the live API's answer to that exact input.
-
-### Planned before `0.1.0`
-
-- A single declared version, shared by the API metadata and `package.json`.
-- A test suite. There is none today, which is why
-  [`CONTRIBUTING.md`](CONTRIBUTING.md) asks a pull request to show the before-and-after
-  output of the queries it changes.
-- Rate limiting on the API. The backend ships without it; the nginx configuration in
-  [`docs/self-hosting.md`](docs/self-hosting.md) is the current answer.
 
 ---
 
@@ -210,8 +216,9 @@ release onwards.
   working checkout of both halves.
 
 <!-- Comparison links. Anchored by the rule in [EntraHuntKit/docs/changelog-anchors.md](https://github.com/juandresrodca/EntraHuntKit/blob/main/docs/changelog-anchors.md#the-anchor-rule),
-     which is stated there once and cited here: GET /repos/juandresrodca/DorkCraft/tags
-     returns an empty list, so [Unreleased] points at the commit log under rule 4. The
-     dated headings above record when work landed on main rather than releases, so they
-     are not versions and take no definition. -->
-[Unreleased]: https://github.com/juandresrodca/DorkCraft/commits/main
+     which is stated there once and cited here: v0.1.0 is the first tag, so under rule 5
+     [Unreleased] compares from it and [0.1.0] points at its release. The dated headings
+     above record when work landed on main before tagging began, so they are not
+     versions and take no definition. -->
+[Unreleased]: https://github.com/juandresrodca/DorkCraft/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/juandresrodca/DorkCraft/releases/tag/v0.1.0

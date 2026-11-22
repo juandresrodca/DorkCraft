@@ -4,7 +4,7 @@
 
 **[Try it live](https://juandresrodca.github.io/DorkCraft/)**: no install, no account.
 
-![DorkCraft turning a request for a PDF titled cv that mentions BROU into a dork, with the common-dorks list and two pinned shortcuts on the left and the effectiveness panel on the right scoring it 46%, Weak](docs/img/dorkcraft-demo.png)
+![DorkCraft turning a request for public GitHub repositories about an "apple fitnes app" into site:github.com intitle:"apple fitnes app", with the common-dorks list and two pinned shortcuts on the left and the effectiveness panel on the right scoring it 100%, Strong](docs/img/dorkcraft-demo.png)
 
 ---
 
@@ -247,12 +247,10 @@ Contributor Covenant 2.1, with a note on where scope disagreements go instead.
 ## Changelog
 
 [CHANGELOG.md](CHANGELOG.md) records what landed and when, reconstructed from the
-commit history. There are no tagged releases yet, and the `version="1.0.0"` in
-`backend/main.py` is FastAPI app metadata rather than a release. It also carries the
-known faults, including the one that stops the
-[published site](https://juandresrodca.github.io/DorkCraft/) generating a dork
-([#1](https://github.com/juandresrodca/DorkCraft/issues/1)); running both halves
-locally is unaffected.
+commit history. The first tagged release is
+[0.1.0](https://github.com/juandresrodca/DorkCraft/releases/tag/v0.1.0), and the API
+metadata and `frontend/package.json` both carry that number. It also lists what is
+still planned, a test suite and rate limiting among them.
 
 ---
 
