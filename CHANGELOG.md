@@ -38,6 +38,16 @@ release onwards.
 
 ### Changed
 
+- **Dorks keep the request's wording.** The generator used to join the first four
+  keywords into one quoted phrase, so *"PDF books about Linux malware"* became
+  `intitle:"pdf books linux malware"`, a phrase no title contains. It now groups only
+  words that were next to each other in the request, drops words an operator already
+  covers (*pdf*, *books*, *profiles*, *github*), keeps two-letter terms such as *cv*,
+  and reads *titled X* as `intitle:` and *mentions X* as `intext:`. Across the six example
+  chips and ten other test requests, the average effectiveness score went from 66 to
+  96, Strong ratings went from 1 of 16 to 12, and every chip except *Directories* now
+  rates Strong. Directory
+  listings have no site or file type to scope them to, so that one stays Fair.
 - **A plainer look.** The indigo-to-pink gradients, glows and pill shapes are gone:
   neutral greys, one solid violet, tighter corners and the system UI font replace them.
   "Google" in the title is in Google's own colours, and the example chips lost their
@@ -56,6 +66,12 @@ release onwards.
   scoring, history and pattern list as separate modules under `src/lib/`.
 
 ### Fixed
+
+- **File types and categories match whole words.** *docker* no longer selects
+  `filetype:doc`, and `docx`, `xlsx` and `pptx` are reachable instead of being caught
+  by their shorter prefixes ([#3](https://github.com/juandresrodca/DorkCraft/issues/3)).
+  Presentations get `filetype:pptx` rather than `filetype:ppt|pptx`, which Google
+  reads as `filetype:ppt` or the plain word *pptx*.
 
 - **Copy buttons keep their icon.** The "Copied" confirmation used to replace the
   button's contents and restore only the text.

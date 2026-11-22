@@ -61,10 +61,15 @@ lands in one of those five steps:
 1. **Safety** — `is_safe_query()` matches the raw query against
    `BLOCKED_PATTERNS`. A refusal returns `400` and no dork.
 2. **Intent** — `_detect_category()` scores every entry in `CATEGORIES` by how
-   many of its `triggers` appear as substrings of the cleaned query. Highest
-   score wins; nothing scoring wins `general`.
-3. **Keywords** — `_extract_keywords()` strips punctuation, `STOP_WORDS` and
-   tokens of two characters or fewer.
+   many of its `triggers` appear as whole words in the cleaned query. Highest
+   score wins, a tie goes to the category declared first, and nothing scoring
+   wins `general`.
+3. **Terms** — `_extract_terms()` splits the request into a `Terms` object: the
+   subject, the words after *titled* (for `intitle:`), the words after
+   *mentions* or *containing* (for `intext:`), a place after *in*, a file type,
+   and any other words. It drops `STOP_WORDS` and the category's `absorbs`
+   list, and only words that were next to each other in the request end up in
+   the same phrase.
 4. **Build** — `builder_map` routes the category to a `_build_*_dork()`
    function, which returns the primary dork plus two or three variations.
 5. **Validate** — the 32-word Google limit, deprecated operators (`link:`,
@@ -160,15 +165,20 @@ curated list and a scraped one.
 
 Three edits, all in `backend/services/dork_generator.py`, in this order.
 
-**1. Declare it in `CATEGORIES`.** `triggers` are matched as plain substrings of
-the lowercased, punctuation-stripped query, so keep them short and
-unambiguous — a trigger like `code` will fire on *"dress code"*. `explanation`
-is what the user reads under the result: three lines, one per operator, saying
-what it does rather than restating it.
+**1. Declare it in `CATEGORIES`.** `triggers` are matched as whole words of
+the lowercased, punctuation-stripped query, with an optional plural *s*, so
+`report` also fires on *reports* but `doc` does not fire on *docker*. Even so,
+keep them unambiguous: a trigger like `code` will still fire on *"dress code"*.
+`absorbs` lists words your operators already say, such as the platform name
+behind a `site:`; they are dropped from the keywords so the page does not have
+to contain them as well. `explanation` is what the user reads under the result:
+three lines, one per operator, saying what it does rather than restating it.
+A line that starts with an operator the dork does not use is left out.
 
 ```python
 "standards": {
-    "triggers": ["rfc", "standard", "specification", "iso ", "nist"],
+    "triggers": ["rfc", "standard", "specification", "iso", "nist"],
+    "absorbs": ["standard", "standards", "specification", "specifications"],
     "explanation": [
         'site: scopes results to the bodies that publish the standard',
         'filetype:pdf retrieves the document rather than a summary page',
@@ -177,19 +187,22 @@ what it does rather than restating it.
 },
 ```
 
-**2. Write the builder.** It takes the extracted keywords (plus the cleaned
-query, if it needs to look for a modifier) and returns
-`(dork, variations)`. Slice the keywords — four terms is usually the ceiling
-before Google starts ignoring them — and use `_quote()` rather than adding
-quotes yourself, so single words stay unquoted.
+**2. Write the builder.** It takes the extracted `Terms` and the cleaned query,
+if it needs to look for a modifier, and returns `(dork, variations)`.
+`t.subject()` gives the words for `intitle:` (at most three, so the phrase can
+still match) and the extras left over. Use `_field()` for an operator with a
+quoted value, `_quote()` for a free phrase so single words stay unquoted, and
+`_bare()` for the extras and any place name.
 
 ```python
-def _build_standards_dork(keywords: List[str]) -> Tuple[str, List[str]]:
-    topic = " ".join(keywords[:4])
-    dork = f'(site:rfc-editor.org OR site:nist.gov) filetype:pdf intitle:{_quote(topic)}'
+def _build_standards_dork(t: Terms, query_lower: str) -> Tuple[str, List[str]]:
+    topic, extras = t.subject()
+    rest = _bare(extras, t.location)
+    dork = _join("(site:rfc-editor.org OR site:nist.gov) filetype:pdf",
+                 _field("intitle", topic), _intext(t), *rest)
     variations = [
-        f'site:rfc-editor.org {_quote(topic)}',
-        f'filetype:pdf {_quote(topic)} (RFC OR specification)',
+        _join("site:rfc-editor.org", _quote(" ".join(topic)), *rest),
+        _join("filetype:pdf", _quote(" ".join(topic)), "(RFC OR specification)", *rest),
     ]
     return dork, variations
 ```
@@ -199,7 +212,7 @@ forget; without it the category is detected and then silently falls through to
 `general`.
 
 ```python
-"standards": lambda: _build_standards_dork(keywords),
+"standards": _build_standards_dork,
 ```
 
 Then add a row to the README's examples table, because that table is what most

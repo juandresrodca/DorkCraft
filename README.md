@@ -20,10 +20,11 @@ and DorkCraft builds the query for  you.
 
 | You type | DorkCraft generates |
 |---|---|
-| Find PDF books about Linux malware  | `filetype:pdf intitle:"pdf books linux malware"` |
-| LinkedIn profiles for SOC analysts in Ireland  | `site:linkedin.com/in intitle:"profiles soc analysts" "Ireland"` |
-| Exposed Apache directory listings  | `intitle:"index of" "exposed apache" -htm -html` |
-| Public GitHub repos about threat intelligence  | `site:github.com intitle:"github repos threat"` |
+| Find PDF books about Linux malware  | `filetype:pdf intitle:"Linux malware"` |
+| LinkedIn profiles for SOC analysts in Ireland  | `site:linkedin.com/in intitle:"SOC analyst" "Ireland"` |
+| Exposed Apache directory listings  | `intitle:"index of" Apache -htm -html` |
+| Public GitHub repos about threat intelligence  | `site:github.com intitle:"threat intelligence"` |
+| A PDF titled cv that mentions BROU  | `filetype:pdf intitle:"cv" intext:"BROU"` |
 
 ### What the page gives you
 
