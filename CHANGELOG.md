@@ -12,6 +12,16 @@ release onwards.
 
 ## [Unreleased]
 
+### Added
+
+- **A preview card for shared links.** `frontend/public/og.png` (1280×640, cropped from
+  the live page) is set as `og:image` and `twitter:image`, so a link to the site on
+  LinkedIn, X, Slack or Discord shows the tool instead of a bare URL. The same file
+  works as the repository's social preview.
+- **`sitemap.xml` and structured data for search engines.** The sitemap is what Bing
+  Webmaster Tools and Google Search Console ask for, and a `WebApplication` block tells
+  them the page is a free web tool.
+
 ### Planned
 
 - A test suite. There is none yet, which is why

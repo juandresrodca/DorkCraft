@@ -34,6 +34,34 @@ import '../styles/global.css';
     <meta property="og:description"
       content="Transform plain English into advanced Google search operators instantly." />
     <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://juandresrodca.github.io/DorkCraft/" />
+    <meta property="og:site_name" content="DorkCraft" />
+    <meta property="og:image" content="https://juandresrodca.github.io/DorkCraft/og.png" />
+    <meta property="og:image:width" content="1280" />
+    <meta property="og:image:height" content="640" />
+    <meta property="og:image:alt" content="DorkCraft turning a plain English request into a Google dork and scoring it 100%, Strong" />
+
+    <!-- Large preview card on X, Mastodon, Slack and Discord -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="DorkCraft — Google Dork Generator" />
+    <meta name="twitter:description"
+      content="Transform plain English into advanced Google search operators instantly." />
+    <meta name="twitter:image" content="https://juandresrodca.github.io/DorkCraft/og.png" />
+
+    <!-- Lets search engines show DorkCraft as a free web app -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'WebApplication',
+      name: 'DorkCraft',
+      url: 'https://juandresrodca.github.io/DorkCraft/',
+      description: 'Generates Google search operators (dorks) from plain English, explains each operator and scores how well the query is built.',
+      applicationCategory: 'UtilitiesApplication',
+      operatingSystem: 'Any',
+      isAccessibleForFree: true,
+      offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+      license: 'https://opensource.org/licenses/MIT',
+      image: 'https://juandresrodca.github.io/DorkCraft/og.png',
+    })} />
 
     <!-- Canonical -->
     <link rel="canonical" href="https://juandresrodca.github.io/DorkCraft/" />
