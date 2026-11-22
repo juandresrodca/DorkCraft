@@ -59,3 +59,43 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5
+
+  # Tells Bing, Yandex and the other IndexNow engines the page changed, so they
+  # recrawl in hours instead of days. The key is public by design: it only proves
+  # that whoever pings controls frontend/public/c8a7efb90a526731af27b06b4d4f6052.txt.
+  # Skipped on forks, which deploy to a different host.
+  indexnow:
+    name: Notify search engines (IndexNow)
+    needs: deploy
+    if: github.repository == 'juandresrodca/DorkCraft'
+    runs-on: ubuntu-latest
+    permissions: {}
+    env:
+      SITE: https://juandresrodca.github.io/DorkCraft/
+      KEY: c8a7efb90a526731af27b06b4d4f6052
+    steps:
+      - name: Wait for the key file to be served
+        run: |
+          for i in $(seq 1 12); do
+            body=$(curl -fsS "${SITE}${KEY}.txt" || true)
+            [ "$body" = "$KEY" ] && { echo "Key file is live."; exit 0; }
+            sleep 10
+          done
+          echo "::warning::Key file not served after 2 minutes; skipping the IndexNow ping."
+          echo "SKIP=1" >> "$GITHUB_ENV"
+
+      - name: Submit the page
+        if: env.SKIP != '1'
+        run: |
+          payload=$(printf '{"host":"juandresrodca.github.io","key":"%s","keyLocation":"%s%s.txt","urlList":["%s"]}' \
+            "$KEY" "$SITE" "$KEY" "$SITE")
+          code=$(curl -sS -o response.txt -w '%{http_code}' \
+            -H 'Content-Type: application/json; charset=utf-8' \
+            -d "$payload" https://api.indexnow.org/indexnow || true)
+          echo "IndexNow answered HTTP $code"; cat response.txt 2>/dev/null || true
+          # 200 = accepted, 202 = accepted while the key is being checked.
+          # Anything else, including no answer, is a warning: a ping never fails a deploy.
+          case "$code" in
+            200|202) ;;
+            *) echo "::warning::IndexNow returned HTTP ${code:-none}" ;;
+          esac

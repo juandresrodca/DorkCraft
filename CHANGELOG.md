@@ -21,6 +21,11 @@ release onwards.
 - **`sitemap.xml` and structured data for search engines.** The sitemap is what Bing
   Webmaster Tools and Google Search Console ask for, and a `WebApplication` block tells
   them the page is a free web tool.
+- **Search engines hear about each deploy.** A third job in `deploy.yml` pings
+  [IndexNow](https://www.indexnow.org/) once the site is live, so Bing, Yandex and the
+  other engines that share it recrawl the page in hours rather than days. The key file in
+  `frontend/public/` is public by design, the ping only warns if it fails, and forks skip
+  it because they deploy to another host.
 
 ### Planned
 
